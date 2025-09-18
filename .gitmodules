@@ -1,0 +1,6 @@
+[submodule "ZRenIE/vendor/glfwPremake"]
+	path = ZRenIE/vendor/glfwPremake
+	url = https://github.com/zntKI/glfwPremake
+[submodule "ZRenIE/vendor/premake"]
+	path = ZRenIE/vendor/premake
+	url = https://github.com/premake/premake-core
