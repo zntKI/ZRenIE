@@ -1,3 +1,5 @@
+#include "Utility/Shader.hpp"
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -13,6 +15,7 @@ const unsigned int WINDOW_HEIGHT = 480;
 
 int main()
 {
+
 #pragma region GLFW_Setup
 
 	glfwSetErrorCallback(error_callback);
@@ -48,6 +51,41 @@ int main()
 
 #pragma endregion
 
+#pragma region DATA_Setup
+
+	// TODO: Figure out a way to generalize the file path
+	Shader triangleShader = Shader("src/Shaders/triangleVS.glsl", "src/Shaders/triangleFS.glsl");
+	triangleShader.use();
+
+	float vertices[] = {
+		 0.5f,  0.5f, 0.0f,
+		 0.5f, -0.5f, 0.0f,
+		-0.5f, -0.5f, 0.0f,
+		-0.5f,  0.5f, 0.0f 
+	};
+	unsigned int indices[] = {
+		0, 1, 3,
+		1, 2, 3
+	};
+
+	unsigned int VAO;
+	glGenVertexArrays(1, &VAO);
+	glBindVertexArray(VAO);
+
+	unsigned int VBO;
+	glGenBuffers(1, &VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+
+	unsigned int EBO;
+	glGenBuffers(1, &EBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+#pragma endregion
+
 #pragma region APPLICATION_LOOP
 
 	while (!glfwWindowShouldClose(window))
@@ -58,6 +96,8 @@ int main()
 		// 2nd: Do the Rendering
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
+
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		glfwSwapBuffers(window);
 
