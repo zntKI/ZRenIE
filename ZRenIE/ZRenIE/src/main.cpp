@@ -60,7 +60,7 @@ int main()
 #pragma region DATA_Setup
 
 	// TODO: Figure out a way to generalize the file path
-	Shader shader = Shader("src/Shaders/triangleVS.glsl", "src/Shaders/triangleFS.glsl");
+	Shader shader = Shader("src/Shaders/matrixVS.glsl", "src/Shaders/matrixFS.glsl");
 	shader.use();
 
 	unsigned int textureID = loadTexture("Assets/Images/brickwall.jpg", false);
@@ -68,6 +68,11 @@ int main()
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, textureID);
 	shader.setInt("u_Texture", 0);
+
+	glm::mat4 matrix = glm::mat4(1.0f);
+	matrix = glm::rotate(matrix, glm::radians(45.f), glm::vec3(0.f, 0.f, 1.f));
+	matrix = glm::scale(matrix, glm::vec3(1.5f, 1.5f, 1.5f));
+	shader.setMatrix4("u_Matrix", matrix);
 
 	float vertices[] = {
 		 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
