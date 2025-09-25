@@ -27,6 +27,7 @@ project "ZRenIE"
         "vendor/glfwPremake/include",
         "vendor/glad/include",
         "vendor/stb_image",
+        "vendor/glm",
     }
     
     links

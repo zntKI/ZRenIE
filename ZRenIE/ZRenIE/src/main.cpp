@@ -5,6 +5,8 @@
 
 #include <stb_image.h>
 
+#include <glm/glm.hpp>
+
 #include <iostream>
 
 void error_callback(int error, const char* descr);

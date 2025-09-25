@@ -2,9 +2,9 @@
 
 #include <glad/glad.h>
 
-// #include <glm/glm.hpp>
-// #include <glm/gtc/matrix_transform.hpp>
-// #include <glm/gtc/type_ptr.hpp>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include <iostream>
 
@@ -32,11 +32,11 @@ public:
 	void setInt(const std::string& name, int value) const;
 	void setFloat(const std::string& name, float value) const;
 
-	// void setVec2(const std::string& name, glm::vec2 vec) const;
-	// void setVec3(const std::string& name, glm::vec3 vec) const;
+	void setVec2(const std::string& name, glm::vec2 vec) const;
+	void setVec3(const std::string& name, glm::vec3 vec) const;
 	void setVec3(const std::string& name, float x, float y, float z) const;
-	// void setVec4(const std::string& name, glm::vec4 vec) const;
-	// void setMatrix4(const std::string& name, glm::mat4 matrix) const;
-	// void setMatrix3(const std::string& name, glm::mat3 matrix) const;
+	void setVec4(const std::string& name, glm::vec4 vec) const;
+	void setMatrix4(const std::string& name, glm::mat4 matrix) const;
+	void setMatrix3(const std::string& name, glm::mat3 matrix) const;
 
 };
