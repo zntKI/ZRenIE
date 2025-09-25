@@ -16,14 +16,8 @@
     <Filter Include="vendor\glad\src">
       <UniqueIdentifier>{B1098FEA-1D95-FCAE-26A6-7FA392B058AF}</UniqueIdentifier>
     </Filter>
-    <Filter Include="vendor\stb_image">
-      <UniqueIdentifier>{0DA0BA59-F998-D9AB-22CB-BE300E23B9B7}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\vendor\stb_image\stb_image.h">
-      <Filter>vendor\stb_image</Filter>
-    </ClInclude>
     <ClInclude Include="src\Utility\Shader.hpp">
       <Filter>src\Utility</Filter>
     </ClInclude>
@@ -38,5 +32,6 @@
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\stb_image.cpp" />
   </ItemGroup>
 </Project>
