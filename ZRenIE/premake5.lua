@@ -20,6 +20,7 @@ project "ZRenIE"
         "%{prj.name}/src/**.hpp",
         "%{prj.name}/src/**.cpp",
         "vendor/glad/src/glad.c",
+        "vendor/stb_image/stb_image.h",
     }
 
     includedirs

@@ -4,6 +4,9 @@
     <Filter Include="src">
       <UniqueIdentifier>{2DAB880B-99B4-887C-2230-9F7C8E38947C}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Utility">
+      <UniqueIdentifier>{70464FB2-DCFB-C7A7-65F0-C17ED1A4BEAB}</UniqueIdentifier>
+    </Filter>
     <Filter Include="vendor">
       <UniqueIdentifier>{B3738122-9F15-ACF8-88D0-BF4C74113349}</UniqueIdentifier>
     </Filter>
@@ -13,17 +16,27 @@
     <Filter Include="vendor\glad\src">
       <UniqueIdentifier>{B1098FEA-1D95-FCAE-26A6-7FA392B058AF}</UniqueIdentifier>
     </Filter>
+    <Filter Include="vendor\stb_image">
+      <UniqueIdentifier>{0DA0BA59-F998-D9AB-22CB-BE300E23B9B7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\vendor\stb_image\stb_image.h">
+      <Filter>vendor\stb_image</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utility\Shader.hpp">
+      <Filter>src\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\vendor\glad\src\glad.c">
       <Filter>vendor\glad\src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Utility\Shader.cpp">
+      <Filter>src\Utility</Filter>
+    </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Utility\Shader.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\Utility\Shader.hpp" />
   </ItemGroup>
 </Project>
