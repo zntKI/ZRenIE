@@ -95,10 +95,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Utility\FlyCamera.hpp" />
     <ClInclude Include="src\Utility\Shader.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\vendor\glad\src\glad.c" />
+    <ClCompile Include="src\Utility\FlyCamera.cpp" />
     <ClCompile Include="src\Utility\Shader.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\stb_image.cpp" />

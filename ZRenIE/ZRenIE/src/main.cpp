@@ -1,4 +1,5 @@
 #include "Utility/Shader.hpp"
+#include "Utility/FlyCamera.hpp"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -12,12 +13,22 @@
 void error_callback(int error, const char* descr);
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void mouseCallback(GLFWwindow* window, double xposIn, double yposIn);
+void scrollCallback(GLFWwindow* window, double xpos, double ypos);
 void processInput(GLFWwindow* window);
 
 unsigned int loadTexture(char const* path, bool gammaCorrection);
 
 const unsigned int WINDOW_WIDTH = 640;
 const unsigned int WINDOW_HEIGHT = 480;
+
+float deltaTime = 0.0f; // Time between current frame and last frame
+float lastFrame = 0.0f; // Time of last frame
+
+// Camera vars
+FlyCamera camera(glm::vec3(0.f, 0.f, 3.f));
+bool firstMouse = true;
+float lastX = WINDOW_WIDTH / 2.f, lastY = WINDOW_HEIGHT / 2.f;
 
 int main()
 {
@@ -60,7 +71,7 @@ int main()
 #pragma region DATA_Setup
 
 	// TODO: Figure out a way to generalize the file path
-	Shader shader = Shader("src/Shaders/matrixVS.glsl", "src/Shaders/matrixFS.glsl");
+	Shader shader = Shader("src/Shaders/cameraVS.glsl", "src/Shaders/cameraFS.glsl");
 	shader.use();
 
 	unsigned int textureID = loadTexture("Assets/Images/brickwall.jpg", false);
@@ -105,16 +116,39 @@ int main()
 
 #pragma endregion
 
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetCursorPosCallback(window, mouseCallback);
+	glfwSetScrollCallback(window, scrollCallback);
+
 #pragma region APPLICATION_LOOP
+
+	glm::mat4 model = glm::mat4(1.f);
+	shader.setMatrix4("u_ModelMat", model);
 
 	while (!glfwWindowShouldClose(window))
 	{
 		// 1st: Process any Inputs
+		
+		// Keep track of time
+		float currentFrame = glfwGetTime();
+		deltaTime = currentFrame - lastFrame;
+		lastFrame = currentFrame;
+
 		processInput(window);
 
-		// 2nd: Do the Rendering
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
+
+		glm::mat4 view = camera.GetViewMatrix();
+		shader.setMatrix4("u_ViewMat", view);
+		
+		int screenWidth, screenHeight;
+		glfwGetWindowSize(window, &screenWidth, &screenHeight);
+		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), screenWidth / (float)screenHeight, .1f, 100.f);
+		shader.setMatrix4("u_ProjMat", projection);
+
+
+		// 2nd: Do the Rendering
 
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
@@ -143,10 +177,55 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 	glViewport(0, 0, width, height);
 }
 
+void mouseCallback(GLFWwindow* window, double xposIn, double yposIn)
+{
+	float xpos = static_cast<float>(xposIn);
+	float ypos = static_cast<float>(yposIn);
+
+	if (firstMouse) // initially set to true
+	{
+		lastX = xpos;
+		lastY = ypos;
+		firstMouse = false;
+	}
+
+	float xoffset = xpos - lastX;
+	float yoffset = lastY - ypos; // reversed
+	lastX = xpos;
+	lastY = ypos;
+
+	camera.ProcessMouseMovement(xoffset, yoffset);
+}
+
+void scrollCallback(GLFWwindow* window, double xpos, double ypos)
+{
+	camera.ProcessMouseScroll(static_cast<float>(ypos));
+}
+
 void processInput(GLFWwindow* window)
 {
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE))
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+	{
 		glfwSetWindowShouldClose(window, true);
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+		camera.ProcessKeyboard(FlyCamera_Movement::MOVE_FAST, deltaTime);
+	else
+		camera.ProcessKeyboard(FlyCamera_Movement::SLOW_DOWN, deltaTime);
+
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		camera.ProcessKeyboard(FlyCamera_Movement::FORWARD, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		camera.ProcessKeyboard(FlyCamera_Movement::BACKWARD, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		camera.ProcessKeyboard(FlyCamera_Movement::LEFT, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		camera.ProcessKeyboard(FlyCamera_Movement::RIGHT, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+		camera.ProcessKeyboard(FlyCamera_Movement::UP, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+		camera.ProcessKeyboard(FlyCamera_Movement::DOWN, deltaTime);
 }
 
 // utility function for loading a 2D texture from file
