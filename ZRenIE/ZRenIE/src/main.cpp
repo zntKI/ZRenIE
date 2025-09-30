@@ -1,5 +1,6 @@
 #include "Utility/Shader.hpp"
 #include "Utility/FlyCamera.hpp"
+#include "Utility/Model.hpp"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -70,49 +71,17 @@ int main()
 
 #pragma region DATA_Setup
 
+	// tell stb_image.h to flip loaded texture's on the y-axis (before loading model).
+	stbi_set_flip_vertically_on_load(true);
+
+	// configure global opengl state
+	// -----------------------------
+	glEnable(GL_DEPTH_TEST);
+
 	// TODO: Figure out a way to generalize the file path
-	Shader shader = Shader("src/Shaders/cameraVS.glsl", "src/Shaders/cameraFS.glsl");
-	shader.use();
-
-	unsigned int textureID = loadTexture("Assets/Images/brickwall.jpg", false);
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, textureID);
-	shader.setInt("u_Texture", 0);
-
-	glm::mat4 matrix = glm::mat4(1.0f);
-	matrix = glm::rotate(matrix, glm::radians(45.f), glm::vec3(0.f, 0.f, 1.f));
-	matrix = glm::scale(matrix, glm::vec3(1.5f, 1.5f, 1.5f));
-	shader.setMatrix4("u_Matrix", matrix);
-
-	float vertices[] = {
-		 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
-		 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-		-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
-		-0.5f,  0.5f, 0.0f, 0.0f, 1.0f,
-	};
-	unsigned int indices[] = {
-		0, 1, 3,
-		1, 2, 3
-	};
-
-	unsigned int VAO;
-	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
-
-	unsigned int VBO;
-	glGenBuffers(1, &VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-
-	unsigned int EBO;
-	glGenBuffers(1, &EBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+	Shader shader = Shader("src/Shaders/modelVS.glsl", "src/Shaders/modelFS.glsl");
+	
+	Model backpack = Model("Assets/Models/Backpack/backpack.obj");
 
 #pragma endregion
 
@@ -122,8 +91,10 @@ int main()
 
 #pragma region APPLICATION_LOOP
 
-	glm::mat4 model = glm::mat4(1.f);
-	shader.setMatrix4("u_ModelMat", model);
+	glm::mat4 model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
+	model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
+	shader.setMatrix4("model", model);
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -137,20 +108,20 @@ int main()
 		processInput(window);
 
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		shader.use();
+
+		// view/projection transformations
+		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT, 0.1f, 100.0f);
 		glm::mat4 view = camera.GetViewMatrix();
-		shader.setMatrix4("u_ViewMat", view);
-		
-		int screenWidth, screenHeight;
-		glfwGetWindowSize(window, &screenWidth, &screenHeight);
-		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), screenWidth / (float)screenHeight, .1f, 100.f);
-		shader.setMatrix4("u_ProjMat", projection);
+		shader.setMatrix4("projection", projection);
+		shader.setMatrix4("view", view);
 
 
 		// 2nd: Do the Rendering
 
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		backpack.Draw(shader);
 
 		glfwSwapBuffers(window);
 

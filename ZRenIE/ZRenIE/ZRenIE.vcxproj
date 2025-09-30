@@ -59,7 +59,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>ZR_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\vendor\glfwPremake\include;..\vendor\glad\include;..\vendor\stb_image;..\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\vendor\glfwPremake\include;..\vendor\glad\include;..\vendor\stb_image;..\vendor\glm;..\vendor\assimpPremake\include;..\vendor\assimpPremake\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -69,15 +69,19 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;assimpPremake.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\vendor\assimpPremake\build\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>IF EXIST "$(SolutionDir)\vendor\assimpPremake\build\bin\Debug\*.dll"\ (xcopy /Q /E /Y /I "$(SolutionDir)\vendor\assimpPremake\build\bin\Debug\*.dll" "..\bin\Debug-windows-x86_64\ZRenIE" &gt; nul) ELSE (xcopy /Q /Y /I "$(SolutionDir)\vendor\assimpPremake\build\bin\Debug\*.dll" "..\bin\Debug-windows-x86_64\ZRenIE" &gt; nul)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>ZR_NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\vendor\glfwPremake\include;..\vendor\glad\include;..\vendor\stb_image;..\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\vendor\glfwPremake\include;..\vendor\glad\include;..\vendor\stb_image;..\vendor\glm;..\vendor\assimpPremake\include;..\vendor\assimpPremake\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -91,16 +95,24 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;assimpPremake.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\vendor\assimpPremake\build\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>IF EXIST "$(SolutionDir)\vendor\assimpPremake\build\bin\Debug\*.dll"\ (xcopy /Q /E /Y /I "$(SolutionDir)\vendor\assimpPremake\build\bin\Debug\*.dll" "..\bin\Release-windows-x86_64\ZRenIE" &gt; nul) ELSE (xcopy /Q /Y /I "$(SolutionDir)\vendor\assimpPremake\build\bin\Debug\*.dll" "..\bin\Release-windows-x86_64\ZRenIE" &gt; nul)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Utility\FlyCamera.hpp" />
+    <ClInclude Include="src\Utility\Mesh.hpp" />
+    <ClInclude Include="src\Utility\Model.hpp" />
     <ClInclude Include="src\Utility\Shader.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\vendor\glad\src\glad.c" />
     <ClCompile Include="src\Utility\FlyCamera.cpp" />
+    <ClCompile Include="src\Utility\Mesh.cpp" />
+    <ClCompile Include="src\Utility\Model.cpp" />
     <ClCompile Include="src\Utility\Shader.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\stb_image.cpp" />

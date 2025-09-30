@@ -4,6 +4,7 @@ workspace "ZRenIE"
 
 
 include "vendor/glfwPremake" -- Almost like a C++ include where the content of that premake file is pasted in this one
+-- include "vendor/assimpPremake" -- For later usage
 
 
 project "ZRenIE"
@@ -28,6 +29,9 @@ project "ZRenIE"
         "vendor/glad/include",
         "vendor/stb_image",
         "vendor/glm",
+        
+        "vendor/assimpPremake/include",
+        "vendor/assimpPremake/build/include" -- where CMake generates config.h
     }
     
     links
@@ -44,6 +48,22 @@ project "ZRenIE"
         defines {"ZR_DEBUG"}
         symbols "On" -- Better debug information
 
+        libdirs { "vendor/assimpPremake/build/lib/Debug" }
+        links { "assimpPremake" }
+
+        postbuildcommands
+        {
+            '{COPY} "%{wks.location}/vendor/assimpPremake/build/bin/Debug/*.dll" "%{cfg.targetdir}"'
+        }
+
     filter "configurations:Release"
         defines {"ZR_NDEBUG"}
         optimize "On"
+
+        libdirs { "vendor/assimpPremake/build/lib/Release" }
+        links { "assimpPremake" }
+
+        postbuildcommands
+        {
+            '{COPY} "%{wks.location}/vendor/assimpPremake/build/bin/Debug/*.dll" "%{cfg.targetdir}"'
+        }
