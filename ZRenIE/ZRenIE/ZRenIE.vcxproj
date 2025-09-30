@@ -99,7 +99,7 @@
       <AdditionalLibraryDirectories>..\vendor\assimpPremake\build\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST "$(SolutionDir)\vendor\assimpPremake\build\bin\Debug\*.dll"\ (xcopy /Q /E /Y /I "$(SolutionDir)\vendor\assimpPremake\build\bin\Debug\*.dll" "..\bin\Release-windows-x86_64\ZRenIE" &gt; nul) ELSE (xcopy /Q /Y /I "$(SolutionDir)\vendor\assimpPremake\build\bin\Debug\*.dll" "..\bin\Release-windows-x86_64\ZRenIE" &gt; nul)</Command>
+      <Command>IF EXIST "$(SolutionDir)\vendor\assimpPremake\build\bin\Release\*.dll"\ (xcopy /Q /E /Y /I "$(SolutionDir)\vendor\assimpPremake\build\bin\Release\*.dll" "..\bin\Release-windows-x86_64\ZRenIE" &gt; nul) ELSE (xcopy /Q /Y /I "$(SolutionDir)\vendor\assimpPremake\build\bin\Release\*.dll" "..\bin\Release-windows-x86_64\ZRenIE" &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

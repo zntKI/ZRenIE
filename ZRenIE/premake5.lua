@@ -65,5 +65,5 @@ project "ZRenIE"
 
         postbuildcommands
         {
-            '{COPY} "%{wks.location}/vendor/assimpPremake/build/bin/Debug/*.dll" "%{cfg.targetdir}"'
+            '{COPY} "%{wks.location}/vendor/assimpPremake/build/bin/Release/*.dll" "%{cfg.targetdir}"'
         }
