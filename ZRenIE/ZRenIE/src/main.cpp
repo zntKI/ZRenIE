@@ -9,6 +9,10 @@
 
 #include <glm/glm.hpp>
 
+#include <imgui.h>
+#include <imgui_impl_glfw.h>
+#include <imgui_impl_opengl3.h>
+
 #include <iostream>
 
 void error_callback(int error, const char* descr);
@@ -20,8 +24,8 @@ void processInput(GLFWwindow* window);
 
 unsigned int loadTexture(char const* path, bool gammaCorrection);
 
-const unsigned int WINDOW_WIDTH = 640;
-const unsigned int WINDOW_HEIGHT = 480;
+const unsigned int WINDOW_WIDTH = 1920;
+const unsigned int WINDOW_HEIGHT = 1080;
 
 float deltaTime = 0.0f; // Time between current frame and last frame
 float lastFrame = 0.0f; // Time of last frame
@@ -89,6 +93,17 @@ int main()
 	glfwSetCursorPosCallback(window, mouseCallback);
 	glfwSetScrollCallback(window, scrollCallback);
 
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO();
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // IF using Docking Branch
+
+	// Setup Platform/Renderer backends
+	ImGui_ImplGlfw_InitForOpenGL(window, true);          // Second param install_callback=true will install GLFW callbacks and chain to existing ones.
+	ImGui_ImplOpenGL3_Init();
+
 #pragma region APPLICATION_LOOP
 
 	glm::mat4 model = glm::mat4(1.0f);
@@ -98,6 +113,11 @@ int main()
 
 	while (!glfwWindowShouldClose(window))
 	{
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
+		ImGui::ShowDemoWindow();
+
 		// 1st: Process any Inputs
 		
 		// Keep track of time
@@ -123,6 +143,9 @@ int main()
 
 		backpack.Draw(shader);
 
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
 		glfwSwapBuffers(window);
 
 		// 3rd: Poll for Events
@@ -131,6 +154,10 @@ int main()
 
 #pragma region
 	
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
+
 	glfwDestroyWindow(window);
 	window = nullptr;
 	glfwTerminate();

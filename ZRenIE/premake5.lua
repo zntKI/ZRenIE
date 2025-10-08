@@ -21,6 +21,13 @@ project "ZRenIE"
         "%{prj.name}/src/**.hpp",
         "%{prj.name}/src/**.cpp",
         "vendor/glad/src/glad.c",
+
+        -- ImGui core
+        "vendor/imguiPremake/*.cpp",
+
+        -- ImGui backends (GLFW + OpenGL3)
+        "vendor/imguiPremake/backends/imgui_impl_glfw.cpp",
+        "vendor/imguiPremake/backends/imgui_impl_opengl3.cpp"
     }
 
     includedirs
@@ -30,8 +37,13 @@ project "ZRenIE"
         "vendor/stb_image",
         "vendor/glm",
         
+        -- ASSIMP
         "vendor/assimpPremake/include",
-        "vendor/assimpPremake/build/include" -- where CMake generates config.h
+        "vendor/assimpPremake/build/include", -- where CMake generates config.h
+
+        -- ImGUI
+        "vendor/imguiPremake",
+        "vendor/imguiPremake/backends"
     }
     
     links

@@ -16,6 +16,12 @@
     <Filter Include="vendor\glad\src">
       <UniqueIdentifier>{B1098FEA-1D95-FCAE-26A6-7FA392B058AF}</UniqueIdentifier>
     </Filter>
+    <Filter Include="vendor\imguiPremake">
+      <UniqueIdentifier>{C25F4A06-2EC1-2714-B72E-6EC6238F5ED3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor\imguiPremake\backends">
+      <UniqueIdentifier>{2CB4FCA2-186F-EC4E-C126-6599ADC036DF}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Utility\FlyCamera.hpp">
@@ -34,6 +40,27 @@
   <ItemGroup>
     <ClCompile Include="..\vendor\glad\src\glad.c">
       <Filter>vendor\glad\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vendor\imguiPremake\backends\imgui_impl_glfw.cpp">
+      <Filter>vendor\imguiPremake\backends</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vendor\imguiPremake\backends\imgui_impl_opengl3.cpp">
+      <Filter>vendor\imguiPremake\backends</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vendor\imguiPremake\imgui.cpp">
+      <Filter>vendor\imguiPremake</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vendor\imguiPremake\imgui_demo.cpp">
+      <Filter>vendor\imguiPremake</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vendor\imguiPremake\imgui_draw.cpp">
+      <Filter>vendor\imguiPremake</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vendor\imguiPremake\imgui_tables.cpp">
+      <Filter>vendor\imguiPremake</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vendor\imguiPremake\imgui_widgets.cpp">
+      <Filter>vendor\imguiPremake</Filter>
     </ClCompile>
     <ClCompile Include="src\Utility\FlyCamera.cpp">
       <Filter>src\Utility</Filter>
