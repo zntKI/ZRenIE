@@ -7,3 +7,6 @@
 [submodule "ZRenIE/vendor/assimpPremake"]
 	path = ZRenIE/vendor/assimpPremake
 	url = https://github.com/zntKI/assimpPremake
+[submodule "ZRenIE/vendor/imguiPremake"]
+	path = ZRenIE/vendor/imguiPremake
+	url = https://github.com/zntKI/imguiPremake
