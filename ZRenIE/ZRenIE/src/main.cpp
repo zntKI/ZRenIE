@@ -121,8 +121,6 @@ int main()
 #pragma region APPLICATION_LOOP
 
 	glm::mat4 model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
-	model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
 	shader.setMatrix4("model", model);
 
 	while (!glfwWindowShouldClose(window))
@@ -143,10 +141,72 @@ int main()
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
-		ImGui::ShowDemoWindow();
+		
+
+		// Window setup code here...
+
+		// Assuming you have these variables for your 3D object's transform
+		static float position[3] = { 0.0f, 0.0f, 0.0f };
+		static float rotation[3] = { 0.0f, 0.0f, 0.0f }; // Euler angles in degrees
+		static float scale[3] = { 1.0f, 1.0f, 1.0f };
+
+		bool changed = false;
+		// Create a window for the transform component
+		ImGui::Begin("Transform");
+
+		// Style settings for better appearance
+		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2, 2));
+		ImGui::Columns(2);
+		ImGui::SetColumnWidth(0, 100.0f);
+
+		// Position
+		ImGui::Text("Position");
+		ImGui::NextColumn();
+		ImGui::PushItemWidth(-1);
+		changed |= ImGui::DragFloat3("##position", position, 0.1f);
+		ImGui::PopItemWidth();
+		ImGui::NextColumn();
+
+		// Rotation
+		ImGui::Text("Rotation");
+		ImGui::NextColumn();
+		ImGui::PushItemWidth(-1);
+		changed |= ImGui::DragFloat3("##rotation", rotation, 0.5f);
+		ImGui::PopItemWidth();
+		ImGui::NextColumn();
+
+		// Scale
+		ImGui::Text("Scale");
+		ImGui::NextColumn();
+		ImGui::PushItemWidth(-1);
+		changed |= ImGui::DragFloat3("##scale", scale, 0.01f);
+		ImGui::PopItemWidth();
+		ImGui::NextColumn();
+
+		ImGui::Columns(1);
+		ImGui::PopStyleVar();
+
+		ImGui::End();
 
 
 		shader.use();
+
+		if (changed)
+		{
+			model = glm::mat4(1.f);
+
+			model = glm::translate(model, glm::vec3(position[0], position[1], position[2]));
+
+			glm::mat4 rotationMat =
+				glm::rotate(glm::mat4(1.0f), glm::radians(rotation[1]), glm::vec3(0.0f, 1.0f, 0.0f)) * // yaw
+				glm::rotate(glm::mat4(1.0f), glm::radians(rotation[0]), glm::vec3(1.0f, 0.0f, 0.0f)) * // pitch
+				glm::rotate(glm::mat4(1.0f), glm::radians(rotation[2]), glm::vec3(0.0f, 0.0f, 1.0f)); // row
+			model = model * rotationMat;
+
+			model = glm::scale(model, glm::vec3(scale[0], scale[1], scale[2]));
+
+			shader.setMatrix4("model", model);
+		}
 
 		// view/projection transformations
 		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT, 0.1f, 100.0f);
