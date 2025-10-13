@@ -15,11 +15,21 @@
 
 #include <iostream>
 
+enum EditState
+{
+	Editor,
+	Game
+};
+EditState editState;
+
 void error_callback(int error, const char* descr);
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+
 void mouseCallback(GLFWwindow* window, double xposIn, double yposIn);
+void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 void scrollCallback(GLFWwindow* window, double xpos, double ypos);
+
 void processInput(GLFWwindow* window);
 
 unsigned int loadTexture(char const* path, bool gammaCorrection);
@@ -89,8 +99,12 @@ int main()
 
 #pragma endregion
 
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	// Lock the mouse in camera control mode by default
+	editState = EditState::Game;
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_CAPTURED);
+
 	glfwSetCursorPosCallback(window, mouseCallback);
+	glfwSetMouseButtonCallback(window, mouseButtonCallback);
 	glfwSetScrollCallback(window, scrollCallback);
 
 	IMGUI_CHECKVERSION();
@@ -113,11 +127,6 @@ int main()
 
 	while (!glfwWindowShouldClose(window))
 	{
-		ImGui_ImplOpenGL3_NewFrame();
-		ImGui_ImplGlfw_NewFrame();
-		ImGui::NewFrame();
-		ImGui::ShowDemoWindow();
-
 		// 1st: Process any Inputs
 		
 		// Keep track of time
@@ -129,6 +138,13 @@ int main()
 
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
+		ImGui::ShowDemoWindow();
+
 
 		shader.use();
 
@@ -177,22 +193,35 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 
 void mouseCallback(GLFWwindow* window, double xposIn, double yposIn)
 {
-	float xpos = static_cast<float>(xposIn);
-	float ypos = static_cast<float>(yposIn);
-
-	if (firstMouse) // initially set to true
+	if (editState != EditState::Editor)
 	{
+		float xpos = static_cast<float>(xposIn);
+		float ypos = static_cast<float>(yposIn);
+
+		if (firstMouse) // initially set to true
+		{
+			lastX = xpos;
+			lastY = ypos;
+			firstMouse = false;
+		}
+
+		float xoffset = xpos - lastX;
+		float yoffset = lastY - ypos; // reversed
 		lastX = xpos;
 		lastY = ypos;
-		firstMouse = false;
+
+		camera.ProcessMouseMovement(xoffset, yoffset);
 	}
+}
 
-	float xoffset = xpos - lastX;
-	float yoffset = lastY - ypos; // reversed
-	lastX = xpos;
-	lastY = ypos;
-
-	camera.ProcessMouseMovement(xoffset, yoffset);
+void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
+{
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS && !ImGui::GetIO().WantCaptureMouse)
+	{
+		// Release mouse from locked position:
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		editState = EditState::Game;
+	}
 }
 
 void scrollCallback(GLFWwindow* window, double xpos, double ypos)
@@ -202,10 +231,25 @@ void scrollCallback(GLFWwindow* window, double xpos, double ypos)
 
 void processInput(GLFWwindow* window)
 {
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+	static int prevEscapeState = GLFW_RELEASE;
+	int currEscapeState = glfwGetKey(window, GLFW_KEY_ESCAPE);
+
+	if (currEscapeState == GLFW_PRESS && editState == EditState::Game)
+	{
+		// Release mouse from locked position:
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	}
+	else if (prevEscapeState == GLFW_PRESS && currEscapeState == GLFW_RELEASE && editState == EditState::Game)
+	{
+		editState = EditState::Editor;
+	}
+	else if (currEscapeState == GLFW_PRESS && editState == EditState::Editor)
 	{
 		glfwSetWindowShouldClose(window, true);
 	}
+
+	prevEscapeState = currEscapeState;
+
 
 	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 		camera.ProcessKeyboard(FlyCamera_Movement::MOVE_FAST, deltaTime);
