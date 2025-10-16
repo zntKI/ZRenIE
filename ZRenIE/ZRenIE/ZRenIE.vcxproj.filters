@@ -36,6 +36,8 @@
     <ClInclude Include="src\Utility\Shader.hpp">
       <Filter>src\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="src\Core\Application.hpp" />
+    <ClInclude Include="src\Core\WindowConfig.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\vendor\glad\src\glad.c">
@@ -80,5 +82,7 @@
     <ClCompile Include="src\stb_image.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Core\Application.cpp" />
+    <ClCompile Include="src\Program.cpp" />
   </ItemGroup>
 </Project>

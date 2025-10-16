@@ -103,6 +103,8 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Core\Application.hpp" />
+    <ClInclude Include="src\Core\WindowConfig.hpp" />
     <ClInclude Include="src\Utility\FlyCamera.hpp" />
     <ClInclude Include="src\Utility\Mesh.hpp" />
     <ClInclude Include="src\Utility\Model.hpp" />
@@ -117,6 +119,8 @@
     <ClCompile Include="..\vendor\imguiPremake\imgui_draw.cpp" />
     <ClCompile Include="..\vendor\imguiPremake\imgui_tables.cpp" />
     <ClCompile Include="..\vendor\imguiPremake\imgui_widgets.cpp" />
+    <ClCompile Include="src\Core\Application.cpp" />
+    <ClCompile Include="src\Program.cpp" />
     <ClCompile Include="src\Utility\FlyCamera.cpp" />
     <ClCompile Include="src\Utility\Mesh.cpp" />
     <ClCompile Include="src\Utility\Model.cpp" />
