@@ -4,7 +4,7 @@
 
 #include <glm/glm.hpp>
 
-class TTransform : Trait
+class TTransform : public Trait
 {
 private:
 	glm::vec3 m_Position;
@@ -12,5 +12,7 @@ private:
 	glm::vec3 m_Scale;
 
 public:
+	TTransform();
+
 	void Update() override;
 };

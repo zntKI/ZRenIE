@@ -9,4 +9,15 @@ class StageManager
 {
 private:
 	std::stack<Stage*> m_Stages;
+
+	Stage* m_CurrentStage;
+
+public:
+	StageManager();
+	~StageManager();
+
+	void Update();
+
+private:
+	void clearStages();
 };

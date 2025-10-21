@@ -42,7 +42,11 @@
     <ClInclude Include="src\Core\StageManager.hpp" />
     <ClInclude Include="src\Core\World.hpp" />
     <ClInclude Include="src\Core\Character.hpp" />
-    <ClInclude Include="src\Core\Trait.hpp" />
+    <ClInclude Include="src\Core\Traits\Trait.hpp" />
+    <ClInclude Include="src\Core\Traits\TTransform.hpp" />
+    <ClInclude Include="src\Core\Traits\TBoxMesh.hpp" />
+    <ClInclude Include="src\Core\Traits\TColorMaterial.hpp" />
+    <ClInclude Include="src\Utility\Utils.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\vendor\glad\src\glad.c">
@@ -93,5 +97,9 @@
     <ClCompile Include="src\Core\StageManager.cpp" />
     <ClCompile Include="src\Core\World.cpp" />
     <ClCompile Include="src\Core\Character.cpp" />
+    <ClCompile Include="src\Core\Traits\TTransform.cpp" />
+    <ClCompile Include="src\Core\Traits\TBoxMesh.cpp" />
+    <ClCompile Include="src\Core\Traits\TColorMaterial.cpp" />
+    <ClCompile Include="src\Utility\Utils.cpp" />
   </ItemGroup>
 </Project>

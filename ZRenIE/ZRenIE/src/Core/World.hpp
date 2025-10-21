@@ -1,7 +1,12 @@
 #pragma once
 
-class World
+#include "Character.hpp"
+
+class World : public Character
 {
 public:
+	World();
+	~World();
+
 	void Update();
 };

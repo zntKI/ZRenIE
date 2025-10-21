@@ -1,4 +1,5 @@
 #include "Application.hpp"
+#include "../Utility/Utils.hpp"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -68,7 +69,7 @@ void Application::Run()
 void Application::update()
 {
 	// Empty the event queue from the InputHandler
-	m_World->Update();
+	m_StageManager.Update();
 }
 
 void Application::render(float stateProgress)

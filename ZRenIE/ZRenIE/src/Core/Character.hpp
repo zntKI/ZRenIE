@@ -1,15 +1,29 @@
 #pragma once
 
-#include "TTransform.hpp"
+#include "Traits/Trait.hpp"
+#include "Traits/TTransform.hpp"
 
+#include <string>
+#include <map>
 #include <vector>
 
 class Character
 {
 public:
+	Character();
+	~Character();
+
 	void Update();
 	void Render();
 
-private:
-	TTransform* m_TransformTrait;
+	void AddChild(Character* child);
+
+	void AddTrait(Trait* newTrait);
+
+protected:
+	Character* m_Parent;
+	std::vector<Character*> m_Children;
+
+	TTransform m_TransformTrait;
+	std::vector<Trait*> m_Traits;
 };
