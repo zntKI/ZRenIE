@@ -1,7 +1,7 @@
 #pragma once
 
 #include "WindowConfig.hpp"
-#include "Stage.hpp"
+#include "World.hpp"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -64,7 +64,7 @@ private:
 private: // member variables // TODO: make use of smart pointers?
 	GLFWwindow* m_Window; // TODO: move to Window wrapper class?
 
-	// StageManager* m_StageManager; // TODO: implement StageManager class? Handles different stages/scenes
+	World* m_World; // TODO: Switch to StageManager class when implemented
 	// Renderer* m_Renderer; // TODO: implement Renderer class? Handles all rendering
 
 	const float TARGET_UPDATE_RATE = 1.f / 60.f; // 60 updates per second
