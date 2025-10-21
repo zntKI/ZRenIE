@@ -1,9 +1,15 @@
 #pragma once
 
-// TODO: Each Character needs to have at least a Transform component
+#include "TTransform.hpp"
+
+#include <vector>
+
 class Character
 {
 public:
 	void Update();
 	void Render();
+
+private:
+	TTransform* m_TransformTrait;
 };

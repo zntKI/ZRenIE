@@ -2,7 +2,7 @@
 
 void Character::Update()
 {
-	// Call update for all components
+	m_TransformTrait->Update();
 }
 
 void Character::Render()

@@ -38,6 +38,11 @@
     </ClInclude>
     <ClInclude Include="src\Core\Application.hpp" />
     <ClInclude Include="src\Core\WindowConfig.hpp" />
+    <ClInclude Include="src\Core\Stage.hpp" />
+    <ClInclude Include="src\Core\StageManager.hpp" />
+    <ClInclude Include="src\Core\World.hpp" />
+    <ClInclude Include="src\Core\Character.hpp" />
+    <ClInclude Include="src\Core\Trait.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\vendor\glad\src\glad.c">
@@ -84,5 +89,9 @@
     </ClCompile>
     <ClCompile Include="src\Core\Application.cpp" />
     <ClCompile Include="src\Program.cpp" />
+    <ClCompile Include="src\Core\Stage.cpp" />
+    <ClCompile Include="src\Core\StageManager.cpp" />
+    <ClCompile Include="src\Core\World.cpp" />
+    <ClCompile Include="src\Core\Character.cpp" />
   </ItemGroup>
 </Project>
