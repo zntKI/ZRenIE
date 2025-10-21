@@ -68,7 +68,7 @@ void Application::Run()
 void Application::update()
 {
 	// Empty the event queue from the InputHandler
-	m_World->update();
+	m_World->Update();
 }
 
 void Application::render(float stateProgress)

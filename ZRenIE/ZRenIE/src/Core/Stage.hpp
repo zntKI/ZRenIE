@@ -5,7 +5,7 @@
 class Stage
 {
 public:
-	void update();
+	void Update();
 
 private:
 	// World* m_World; TODO: implement World class? Handles all game objects

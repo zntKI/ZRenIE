@@ -3,5 +3,5 @@
 class World
 {
 public:
-	void update();
+	void Update();
 };
