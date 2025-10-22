@@ -1,10 +1,9 @@
 #pragma once
 
+#include "Window.hpp"
+
 #include "WindowConfig.hpp"
 #include "StageManager.hpp"
-
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
 
 /**
  * @brief The main application class.
@@ -61,46 +60,16 @@ private:
 	 */
 	void render(float stateProgress);
 
-private: // member variables // TODO: make use of smart pointers?
-	GLFWwindow* m_Window; // TODO: move to Window wrapper class?
+private:
+	// FileSystem m_FileSystem; // TODO: implement FileSystem class?
+
+	Window m_Window;
 
 	StageManager m_StageManager;
 	// Renderer* m_Renderer; // TODO: implement Renderer class? Handles all rendering
 
 	const float TARGET_UPDATE_RATE = 1.f / 60.f; // 60 updates per second
 
-	float m_DeltaTime;
-	float m_LastFrame;
-
-private:
-	/**
-	 * @brief Initializes GLFW.
-	 *
-	 * This helper function initializes the GLFW library.
-	 *
-	 * @param windowConfig Configuration struct for the window.
-	 * @return True if initialization was successful, false otherwise.
-	 */
-	bool glfwInitialize(const WindowConfig& windowConfig);
-	/**
-	 * @brief Initializes GLAD.
-	 *
-	 * This helper function initializes the GLAD library.
-	 *
-	 * @return True if initialization was successful, false otherwise.
-	 */
-	bool gladInitialize();
-
-private: // helper functions TODO: move to Utility?
-	/**
-	 * @brief Error callback function for GLFW.
-	 *
-	 * This function is called when a GLFW error occurs.
-	 *
-	 * @param error The error code.
-	 * @param descr A description of the error.
-	 */
-	static void error_callback(int error, const char* descr);
-	//static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-
+	float m_DeltaTime = 0.f;
+	float m_LastFrame = 0.f;
 };
