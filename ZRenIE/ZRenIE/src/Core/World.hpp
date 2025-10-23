@@ -9,4 +9,5 @@ public:
 	~World();
 
 	void Update();
+	void Render();
 };

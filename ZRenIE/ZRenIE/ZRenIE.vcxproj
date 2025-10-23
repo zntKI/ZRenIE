@@ -154,6 +154,10 @@
       <Project>{FA18DBA3-66CE-5399-EFC2-4D705B774A9D}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="src\Shaders\Color\colorFS.glsl" />
+    <None Include="src\Shaders\Color\colorVS.glsl" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

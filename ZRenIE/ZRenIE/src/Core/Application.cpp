@@ -9,7 +9,7 @@
 // TODO: Implement logging system
 
 Application::Application(float target_update_rate)
-	: TARGET_UPDATE_RATE(target_update_rate)
+	: TARGET_UPDATE_RATE(target_update_rate), m_Stage(nullptr)
 {
 }
 
@@ -21,7 +21,8 @@ bool Application::Initialize(const WindowConfig& windowConfig)
 {
 	// Initialize FileSystem here? (if implemented)
 
-	m_Window.Initialize(windowConfig);
+	if (!m_Window.Initialize(windowConfig)) return false;
+	m_Stage = new Stage();
 
 	return true;
 }
@@ -56,7 +57,7 @@ void Application::Run()
 		}
 
 		// render
-		render(lag / TARGET_UPDATE_RATE);
+		render(/*lag / TARGET_UPDATE_RATE*/);
 		m_Window.SwapBuffers();
 	}
 }
@@ -64,14 +65,12 @@ void Application::Run()
 void Application::update()
 {
 	// Empty the event queue from the InputHandler
-	m_StageManager.Update();
+	m_Stage->Update();
 }
 
-void Application::render(float stateProgress)
+void Application::render()
 {
 	// TODO: Use stateProgress by asking the World to interpolate between states
 
-	// TODO: Move this into the Renderer class:
-	glClearColor(0.f, 64.f, 128.f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	m_Stage->Render();
 }

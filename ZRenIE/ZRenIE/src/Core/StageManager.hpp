@@ -17,6 +17,7 @@ public:
 	~StageManager();
 
 	void Update();
+	void Render();
 
 private:
 	void clearStages();

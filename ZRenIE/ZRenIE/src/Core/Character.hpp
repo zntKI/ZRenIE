@@ -9,6 +9,7 @@
 
 class Character
 {
+	friend class Renderer;
 public:
 	Character();
 	~Character();

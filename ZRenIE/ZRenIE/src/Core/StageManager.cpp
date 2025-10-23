@@ -18,6 +18,11 @@ void StageManager::Update()
 	m_CurrentStage->Update();
 }
 
+void StageManager::Render()
+{
+	m_CurrentStage->Render();
+}
+
 void StageManager::clearStages()
 {
 	while (!m_Stages.empty())

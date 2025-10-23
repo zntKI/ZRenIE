@@ -27,3 +27,11 @@ void World::Update()
 		child->Update();
 	}
 }
+
+void World::Render()
+{
+	for (auto& child : m_Children)
+	{
+		child->Render();
+	}
+}

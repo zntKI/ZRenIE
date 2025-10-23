@@ -106,4 +106,8 @@
     <ClCompile Include="src\Core\Renderer.cpp" />
     <ClCompile Include="src\Core\Window.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="src\Shaders\Color\colorVS.glsl" />
+    <None Include="src\Shaders\Color\colorFS.glsl" />
+  </ItemGroup>
 </Project>

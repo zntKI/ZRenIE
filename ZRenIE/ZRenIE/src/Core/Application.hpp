@@ -3,7 +3,8 @@
 #include "Window.hpp"
 
 #include "WindowConfig.hpp"
-#include "StageManager.hpp"
+#include "Stage.hpp"
+#include "Renderer.hpp"
 
 /**
  * @brief The main application class.
@@ -58,15 +59,14 @@ private:
 	 *
 	 * @param stateProgress Interpolation value between the previous and current state.
 	 */
-	void render(float stateProgress);
+	void render();
 
 private:
 	// FileSystem m_FileSystem; // TODO: implement FileSystem class?
 
 	Window m_Window;
 
-	StageManager m_StageManager;
-	// Renderer* m_Renderer; // TODO: implement Renderer class? Handles all rendering
+	Stage* m_Stage;
 
 	const float TARGET_UPDATE_RATE = 1.f / 60.f; // 60 updates per second
 
