@@ -1,5 +1,5 @@
 # ZRenIE
-A small-scale C++ OpenGL engine
+A 3D C++ OpenGL engine
 
 ## Overview
 
