@@ -7,6 +7,10 @@
 // TODO: Think about applying the correct design pattern here (TypeObject/Prototype/Subclass Sandbox)
 class Stage
 {
+private:
+	World m_World;
+	Renderer m_Renderer;
+
 public:
 	Stage();
 	~Stage();
@@ -15,6 +19,5 @@ public:
 	void Render();
 
 private:
-	World m_World;
-	Renderer m_Renderer;
+	void initialize();
 };

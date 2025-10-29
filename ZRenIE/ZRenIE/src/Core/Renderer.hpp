@@ -9,4 +9,7 @@ public:
 	~Renderer();
 
 	void Render(World* world);
+
+private:
+	void setupRender();
 };

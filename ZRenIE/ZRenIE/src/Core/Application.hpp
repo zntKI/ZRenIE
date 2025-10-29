@@ -6,6 +6,8 @@
 #include "Stage.hpp"
 #include "Renderer.hpp"
 
+#include <memory>
+
 /**
  * @brief The main application class.
  *
@@ -66,7 +68,7 @@ private:
 
 	Window m_Window;
 
-	Stage* m_Stage;
+	std::unique_ptr<Stage> m_Stage;
 
 	const float TARGET_UPDATE_RATE = 1.f / 60.f; // 60 updates per second
 

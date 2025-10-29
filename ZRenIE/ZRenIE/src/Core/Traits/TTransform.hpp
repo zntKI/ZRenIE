@@ -13,6 +13,4 @@ private:
 
 public:
 	TTransform();
-
-	void Update() override;
 };

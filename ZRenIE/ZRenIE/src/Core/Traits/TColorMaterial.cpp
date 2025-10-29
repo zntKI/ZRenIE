@@ -11,12 +11,8 @@ TColorMaterial::TColorMaterial(const glm::vec3& color)
 	m_Shader->setVec3("u_Color", m_Color);
 }
 
-void TColorMaterial::Update()
-{
-}
-
 void TColorMaterial::Bind()
 {
 	m_Shader->use();
-	//m_Shader->setVec3("objectColor", m_Color);
+	m_Shader->setVec3("objectColor", m_Color);
 }

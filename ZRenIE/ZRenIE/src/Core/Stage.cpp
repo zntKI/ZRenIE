@@ -1,11 +1,35 @@
 #include "Stage.hpp"
 
+#include "Traits/TModel.hpp"
+#include "Traits/TColorMaterial.hpp"
+
+#include "Character.hpp"
+
 Stage::Stage()
 {
+	initialize();
 }
 
 Stage::~Stage()
 {
+}
+
+void Stage::initialize()
+{
+	std::shared_ptr<Character> cube = std::make_shared<Character>();
+
+	std::shared_ptr<TModel> cubeModel = std::make_shared<TModel>("Assets/Models/Basic/cube.obj");
+	cube->AddTrait(cubeModel);
+
+	std::shared_ptr<TMaterial> cubeMaterial = std::make_shared<TColorMaterial>();
+	cube->AddTrait(cubeMaterial);
+
+	for (auto& mesh : cubeModel->m_Meshes)
+	{
+		mesh->m_Material = cubeMaterial;
+	}
+
+	m_World.AddChild(cube);
 }
 
 void Stage::Update()

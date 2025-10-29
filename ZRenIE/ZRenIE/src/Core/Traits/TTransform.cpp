@@ -7,6 +7,6 @@ TTransform::TTransform()
 {
 }
 
-void TTransform::Update()
-{
-}
+//void TTransform::Update()
+//{
+//}

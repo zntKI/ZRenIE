@@ -3,5 +3,5 @@
 class Trait
 {
 public:
-	virtual void Update() = 0;
+	virtual ~Trait();
 };

@@ -1,7 +1,6 @@
 #include "Renderer.hpp"
 
-#include "Traits/TBoxMesh.hpp"
-#include "Traits/TColorMaterial.hpp"
+#include "Traits/TModel.hpp"
 
 #include <glad/glad.h>
 
@@ -15,30 +14,23 @@ Renderer::~Renderer()
 
 void Renderer::Render(World* world)
 {
-	glClearColor(0.f, 64.f, 128.f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	for (auto& child : world->m_Children)
 	{
-		TBoxMesh* boxMeshTrait = nullptr;
-		TColorMaterial* colorMaterialTrait = nullptr;
+		TTransform transformTrait = child->m_TransformTrait;
+		std::shared_ptr<TModel> modelTrait;
 		for (auto& trait : child->m_Traits)
 		{
-			TBoxMesh* exBoxMeshTrait = dynamic_cast<TBoxMesh*>(trait);
-			if (exBoxMeshTrait)
-			{
-				boxMeshTrait = exBoxMeshTrait;
-			}
-			TColorMaterial* exColorMaterialTrait = dynamic_cast<TColorMaterial*>(trait);
-			if (exColorMaterialTrait)
-			{
-				colorMaterialTrait = exColorMaterialTrait;
-			}
+			if (auto tryModelTrait = std::dynamic_pointer_cast<TModel>(trait);
+				tryModelTrait != nullptr)
+					modelTrait = tryModelTrait;
 		}
 
-		colorMaterialTrait->Bind();
-
-		boxMeshTrait->Bind();
-		glDrawElements(GL_TRIANGLES, boxMeshTrait->GetIndexCount(), GL_UNSIGNED_INT, 0);
+		modelTrait->Draw();
 	}
+}
+
+void Renderer::setupRender()
+{
+	glClearColor(0.f, 0.25f, .5f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }

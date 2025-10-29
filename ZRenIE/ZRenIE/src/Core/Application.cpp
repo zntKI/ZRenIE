@@ -20,9 +20,8 @@ Application::~Application()
 bool Application::Initialize(const WindowConfig& windowConfig)
 {
 	// Initialize FileSystem here? (if implemented)
-
 	if (!m_Window.Initialize(windowConfig)) return false;
-	m_Stage = new Stage();
+	m_Stage = std::make_unique<Stage>();
 
 	return true;
 }

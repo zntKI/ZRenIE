@@ -11,10 +11,10 @@ Character::~Character()
 
 void Character::Update()
 {
-	m_TransformTrait.Update();
+	//m_TransformTrait.Update();
 	for (auto& trait : m_Traits)
 	{
-		trait->Update();
+		// TODO: Do smth
 	}
 }
 
@@ -22,13 +22,13 @@ void Character::Render()
 {
 }
 
-void Character::AddChild(Character* child)
+void Character::AddChild(const std::shared_ptr<Character>& child)
 {
 	m_Children.push_back(child);
 	child->m_Parent = this;
 }
 
-void Character::AddTrait(Trait* newTrait)
+void Character::AddTrait(const std::shared_ptr<Trait>& newTrait)
 {
 	m_Traits.push_back(newTrait);
 }

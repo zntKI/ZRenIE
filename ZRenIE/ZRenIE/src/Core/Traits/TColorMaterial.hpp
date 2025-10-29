@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Trait.hpp"
+#include "TMaterial.hpp"
 #include "../../Utility/Shader.hpp"
 
 #include <glm/glm.hpp>
 
-class TColorMaterial : public Trait
+class TColorMaterial : public TMaterial
 {
 private:
 	static Shader* m_Shader;
@@ -15,7 +15,5 @@ private:
 public:
 	TColorMaterial(const glm::vec3& color = glm::vec3(1.f, 0.f, 1.f));
 
-	void Update() override;
-
-	void Bind();
+	void Bind() override;
 };
