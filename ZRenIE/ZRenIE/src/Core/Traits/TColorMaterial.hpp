@@ -15,5 +15,5 @@ private:
 public:
 	TColorMaterial(const glm::vec3& color = glm::vec3(1.f, 0.f, 1.f));
 
-	void Bind() override;
+	void Bind(const glm::mat4& mvpMatrix) override;
 };

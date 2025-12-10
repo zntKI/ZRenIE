@@ -5,7 +5,8 @@
 
 #include "Character.hpp"
 
-Stage::Stage()
+Stage::Stage(InputManager& inputManager)
+	: m_World(inputManager), m_Renderer(m_World.GetCameraPtr())
 {
 	initialize();
 }
@@ -39,5 +40,6 @@ void Stage::Update()
 
 void Stage::Render()
 {
-	m_Renderer.Render(&m_World);
+	m_Renderer.SetupRender();
+	m_World.Render(m_Renderer);
 }

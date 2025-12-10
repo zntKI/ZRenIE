@@ -1,6 +1,6 @@
 #include "Mesh.hpp"
 
-#include <glad/glad.h>
+#include "../Platform.hpp"
 
 Mesh::Mesh(std::vector<Vertex> vertices, std::vector<uint32_t> indices)
 	: m_Vertices(vertices), m_Indices(indices),
@@ -40,11 +40,11 @@ void Mesh::setupMesh()
 	glBindVertexArray(0);
 }
 
-void Mesh::Draw()
+void Mesh::Draw(const glm::mat4& mvpMatrix)
 {
 	// setup material for the mesh
 	if (m_Material)
-		m_Material->Bind();
+		m_Material->Bind(mvpMatrix);
 
 	// draw mesh
 	glBindVertexArray(m_VAO);

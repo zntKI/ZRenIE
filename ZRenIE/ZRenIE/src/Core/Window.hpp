@@ -2,12 +2,13 @@
 
 #include "WindowConfig.hpp"
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include "../Utility/Observer.hpp"
+
+#include "Platform.hpp"
 
 #include <memory>
 
-class Window
+class Window :public Observer
 {
 private:
 	GLFWwindow* m_Window;
@@ -16,11 +17,15 @@ public:
 	Window();
 	~Window();
 
+	GLFWwindow* GetWindowPtr() const;
+
 	bool Initialize(const WindowConfig& windowConfig);/*Should be Window data loaded from JSON file*/
 	void Destroy();
 
 	bool ShouldClose() const;
 	void SwapBuffers();
+
+	void OnNotify(Event event) override;
 
 private:
 	/**

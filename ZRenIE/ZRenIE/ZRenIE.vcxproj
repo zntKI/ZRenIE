@@ -103,12 +103,16 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Core\InputManager.hpp" />
+    <ClInclude Include="src\Core\Platform.hpp" />
+    <ClInclude Include="src\Utility\Event.hpp" />
+    <ClInclude Include="src\Utility\Observer.hpp" />
     <ClInclude Include="src\Core\Renderer.hpp" />
     <ClInclude Include="src\Core\Character.hpp" />
     <ClInclude Include="src\Core\Application.hpp" />
     <ClInclude Include="src\Core\Traits\TMaterial.hpp" />
     <ClInclude Include="src\Core\WindowConfig.hpp" />
-    <ClInclude Include="src\Utility\FlyCamera.hpp" />
+    <ClInclude Include="src\Core\FlyCamera.hpp" />
     <ClInclude Include="src\Core\Traits\Mesh.hpp" />
     <ClInclude Include="src\Core\Traits\TModel.hpp" />
     <ClInclude Include="src\Utility\Shader.hpp" />
@@ -130,12 +134,13 @@
     <ClCompile Include="..\vendor\imguiPremake\imgui_draw.cpp" />
     <ClCompile Include="..\vendor\imguiPremake\imgui_tables.cpp" />
     <ClCompile Include="..\vendor\imguiPremake\imgui_widgets.cpp" />
+    <ClCompile Include="src\Core\InputManager.cpp" />
     <ClCompile Include="src\Core\Renderer.cpp" />
     <ClCompile Include="src\Core\Character.cpp" />
     <ClCompile Include="src\Core\Application.cpp" />
     <ClCompile Include="src\Core\Traits\Trait.cpp" />
     <ClCompile Include="src\Program.cpp" />
-    <ClCompile Include="src\Utility\FlyCamera.cpp" />
+    <ClCompile Include="src\Core\FlyCamera.cpp" />
     <ClCompile Include="src\Core\Traits\Mesh.cpp" />
     <ClCompile Include="src\Core\Traits\TModel.cpp" />
     <ClCompile Include="src\Utility\Shader.cpp" />

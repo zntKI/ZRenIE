@@ -4,7 +4,7 @@
 StageManager::StageManager()
 {
 	Utils::logMessage("Initializing Stage...");
-	m_CurrentStage = new Stage();
+	//m_CurrentStage = new Stage();
 	m_Stages.push(m_CurrentStage);
 }
 

@@ -18,7 +18,7 @@ class TModel : public Trait
 {
 public:
 	TModel(const char* path);
-	void Draw();
+	void Draw(const glm::mat4& mvpMatrix);
 
 	std::vector<std::shared_ptr<Mesh>> m_Meshes;
 

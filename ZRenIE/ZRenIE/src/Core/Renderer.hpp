@@ -1,15 +1,21 @@
 #pragma once
 
-#include "World.hpp"
+#include "FlyCamera.hpp"
+
+#include <memory>
+
+class Character;
 
 class Renderer
 {
+private:
+	std::shared_ptr<FlyCamera> m_WorldCamera;
+
 public:
-	Renderer();
+	Renderer(std::shared_ptr<FlyCamera> worldCamera);
 	~Renderer();
 
-	void Render(World* world);
+	void SetupRender();
 
-private:
-	void setupRender();
+	void Render(std::shared_ptr<Character> character);
 };

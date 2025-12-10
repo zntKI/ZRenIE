@@ -27,7 +27,7 @@ public:
 	std::shared_ptr<TMaterial> m_Material;
 
 	Mesh(std::vector<Vertex> vertices, std::vector<uint32_t> indices);
-	void Draw();
+	void Draw(const glm::mat4& mvpMatrix);
 
 	uint32_t m_VAO;
 

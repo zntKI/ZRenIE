@@ -2,7 +2,8 @@
 
 #include <stb_image.h>
 #include <glm/glm.hpp>
-#include <glad/glad.h>
+
+#include "../Platform.hpp"
 
 #include <memory>
 
@@ -11,11 +12,11 @@ TModel::TModel(const char* path)
 	loadModel(path);
 }
 
-void TModel::Draw()
+void TModel::Draw(const glm::mat4& mvpMatrix)
 {
 	for (auto& mesh : m_Meshes)
 	{
-		mesh->Draw();
+		mesh->Draw(mvpMatrix);
 	}
 }
 

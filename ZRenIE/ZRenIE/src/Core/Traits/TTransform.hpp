@@ -13,4 +13,6 @@ private:
 
 public:
 	TTransform();
+
+	glm::mat4 GetModelMatrix() const;
 };

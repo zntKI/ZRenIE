@@ -12,6 +12,11 @@ Window::~Window()
 	Destroy();
 }
 
+GLFWwindow* Window::GetWindowPtr() const
+{
+	return m_Window;
+}
+
 bool Window::Initialize(const WindowConfig& windowConfig)
 {
 	if (!glfwInitialize(windowConfig)) return false;
@@ -37,6 +42,14 @@ void Window::SwapBuffers()
 {
 	if (m_Window)
 		glfwSwapBuffers(m_Window);
+}
+
+void Window::OnNotify(Event event)
+{
+	if (event.eventType == EventType::ON_KEY_PRESS && event.eventData.key == GLFW_KEY_ESCAPE)
+	{
+		glfwSetWindowShouldClose(m_Window, true);
+	}
 }
 
 bool Window::glfwInitialize(const WindowConfig& windowConfig)

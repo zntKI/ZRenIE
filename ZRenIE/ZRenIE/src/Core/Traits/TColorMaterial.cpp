@@ -1,6 +1,6 @@
 #include "TColorMaterial.hpp"
 
-#include <glad/glad.h>
+#include "../Platform.hpp"
 
 Shader* TColorMaterial::m_Shader = nullptr;
 
@@ -11,8 +11,11 @@ TColorMaterial::TColorMaterial(const glm::vec3& color)
 	m_Shader->setVec3("u_Color", m_Color);
 }
 
-void TColorMaterial::Bind()
+void TColorMaterial::Bind(const glm::mat4& mvpMatrix)
 {
 	m_Shader->use();
-	m_Shader->setVec3("objectColor", m_Color);
+
+	m_Shader->setMatrix4("u_MVP", mvpMatrix);
+
+	m_Shader->setVec3("u_Color", m_Color);
 }

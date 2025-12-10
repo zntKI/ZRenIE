@@ -1,8 +1,10 @@
 #pragma once
 
 #include "Window.hpp"
-
 #include "WindowConfig.hpp"
+
+#include "InputManager.hpp"
+
 #include "Stage.hpp"
 #include "Renderer.hpp"
 
@@ -17,6 +19,10 @@
  */
 class Application
 {
+public:
+	static int GetScreenWidth();
+	static int GetScreenHeight();
+
 public:
 	/**
 	 * @brief Constructor for the Application class.
@@ -66,7 +72,8 @@ private:
 private:
 	// FileSystem m_FileSystem; // TODO: implement FileSystem class?
 
-	Window m_Window;
+	std::shared_ptr<Window> m_Window;
+	InputManager m_InputManager;
 
 	std::unique_ptr<Stage> m_Stage;
 
@@ -74,4 +81,7 @@ private:
 
 	float m_DeltaTime = 0.f;
 	float m_LastFrame = 0.f;
+
+	static int s_ScreenWidth;
+	static int s_ScreenHeight;
 };
