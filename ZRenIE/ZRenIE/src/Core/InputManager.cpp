@@ -66,7 +66,7 @@ void InputManager::emptyQueue()
 	{
 		for (auto& observer : m_Observers)
 		{
-			observer.get()->OnNotify(s_eventQueue.front());
+			observer->OnNotify(s_eventQueue.front());
 		}
 		s_eventQueue.pop();
 	}

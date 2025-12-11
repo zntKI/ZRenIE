@@ -7,6 +7,9 @@
 Renderer::Renderer(std::shared_ptr<FlyCamera> worldCamera)
 {
 	m_WorldCamera = worldCamera;
+
+	glEnable(GL_DEPTH);
+	glEnable(GL_CULL_FACE);
 }
 
 Renderer::~Renderer()
@@ -33,8 +36,8 @@ void Renderer::Render(std::shared_ptr<Character> character)
 		return;
 
 	glm::mat4 model = transformTrait.GetModelMatrix();
-	glm::mat4 view = m_WorldCamera.get()->GetViewMatrix();
-	glm::mat4 projection = glm::perspective(glm::radians(m_WorldCamera.get()->Zoom), Application::GetScreenWidth() / (float)Application::GetScreenHeight(), .1f, 100.f);
+	glm::mat4 view = m_WorldCamera->GetViewMatrix();
+	glm::mat4 projection = glm::perspective(glm::radians(m_WorldCamera->Zoom), Application::GetScreenWidth() / (float)Application::GetScreenHeight(), .1f, 100.f);
 
 	modelTrait->Draw(projection * view * model);
 }

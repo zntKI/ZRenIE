@@ -2,6 +2,7 @@
 
 #include "Traits/TModel.hpp"
 #include "Traits/TColorMaterial.hpp"
+#include "Traits/TTextureMaterial.hpp"
 
 #include "Character.hpp"
 
@@ -22,7 +23,8 @@ void Stage::initialize()
 	std::shared_ptr<TModel> cubeModel = std::make_shared<TModel>("Assets/Models/Basic/cube.obj");
 	cube->AddTrait(cubeModel);
 
-	std::shared_ptr<TMaterial> cubeMaterial = std::make_shared<TColorMaterial>();
+	//std::shared_ptr<TMaterial> cubeMaterial = std::make_shared<TColorMaterial>(glm::vec3(1.f, 0.f, 0.f));
+	std::shared_ptr<TMaterial> cubeMaterial = std::make_shared<TTextureMaterial>("Assets/Textures/container2.png");
 	cube->AddTrait(cubeMaterial);
 
 	for (auto& mesh : cubeModel->m_Meshes)

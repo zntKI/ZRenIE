@@ -2,12 +2,15 @@
 
 #include "../Platform.hpp"
 
-Shader* TColorMaterial::m_Shader = nullptr;
+std::unique_ptr<Shader> TColorMaterial::m_Shader = nullptr;
 
 TColorMaterial::TColorMaterial(const glm::vec3& color)
 	: m_Color(color)
 {
-	m_Shader = new Shader("src/Shaders/Color/colorVS.glsl", "src/Shaders/Color/colorFS.glsl");
+	if (!m_Shader) // Lazy init to avoid creation before gl context exists
+		m_Shader = std::make_unique<Shader>("src/Shaders/Color/colorVS.glsl", "src/Shaders/Color/colorFS.glsl");
+
+	m_Shader->use();
 	m_Shader->setVec3("u_Color", m_Color);
 }
 

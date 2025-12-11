@@ -34,12 +34,12 @@ Application::~Application()
 bool Application::Initialize(const WindowConfig& windowConfig)
 {
 	// Initialize FileSystem here? (if implemented)
-	if (!m_Window.get()->Initialize(windowConfig)) return false;
+	if (!m_Window->Initialize(windowConfig)) return false;
 
 	s_ScreenWidth = windowConfig.WINDOW_WIDTH;
 	s_ScreenHeight = windowConfig.WINDOW_HEIGHT;
 
-	m_InputManager.SetCallbacks(m_Window.get()->GetWindowPtr());
+	m_InputManager.SetCallbacks(m_Window->GetWindowPtr());
 
 	m_Stage = std::make_unique<Stage>(m_InputManager);
 
@@ -51,7 +51,7 @@ void Application::Run()
 	float currentFrame = static_cast<float>(glfwGetTime());
 	float lag = 0.0f;
 
-	while (!m_Window.get()->ShouldClose())
+	while (!m_Window->ShouldClose())
 	{
 		currentFrame = static_cast<float>(glfwGetTime());
 		m_DeltaTime = currentFrame - m_LastFrame;
@@ -73,7 +73,7 @@ void Application::Run()
 
 		// render
 		render(/*lag / TARGET_UPDATE_RATE*/);
-		m_Window.get()->SwapBuffers();
+		m_Window->SwapBuffers();
 	}
 }
 

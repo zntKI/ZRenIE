@@ -5,10 +5,12 @@
 
 #include <glm/glm.hpp>
 
+#include <memory>
+
 class TColorMaterial : public TMaterial
 {
 private:
-	static Shader* m_Shader;
+	static std::unique_ptr<Shader> m_Shader;
 
 	glm::vec3 m_Color;
 
