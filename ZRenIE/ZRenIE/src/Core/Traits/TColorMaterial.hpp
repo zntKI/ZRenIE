@@ -1,0 +1,21 @@
+#pragma once
+
+#include "TMaterial.hpp"
+#include "../../Utility/Shader.hpp"
+
+#include <glm/glm.hpp>
+
+#include <memory>
+
+class TColorMaterial : public TMaterial
+{
+private:
+	static std::unique_ptr<Shader> m_Shader;
+
+	glm::vec3 m_Color;
+
+public:
+	TColorMaterial(const glm::vec3& color = glm::vec3(1.f, 0.f, 1.f));
+
+	void Bind(const glm::mat4& mvpMatrix) override;
+};
