@@ -10,7 +10,7 @@ void Character::updateChildren()
 	}
 }
 
-void Character::renderChildren(Renderer& renderer)
+void Character::renderChildren(std::shared_ptr<Renderer> renderer)
 {
 	for (auto& child : m_Children)
 	{
@@ -36,9 +36,9 @@ void Character::Update()
 	updateChildren();
 }
 
-void Character::Render(Renderer& renderer)
+void Character::Render(std::shared_ptr<Renderer> renderer)
 {
-	renderer.Render(shared_from_this());
+	renderer->Render(shared_from_this());
 
 	renderChildren(renderer);
 }

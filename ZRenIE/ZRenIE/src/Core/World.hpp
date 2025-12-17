@@ -20,7 +20,7 @@ public:
 	~World();
 
 	void Update() override;
-	void Render(Renderer& renderer) override;
+	void Render(std::shared_ptr<Renderer> renderer) override;
 
 	std::shared_ptr<FlyCamera> GetCameraPtr() const;
 };

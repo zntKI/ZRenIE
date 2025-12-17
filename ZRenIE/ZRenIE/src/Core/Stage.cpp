@@ -7,7 +7,7 @@
 #include "Character.hpp"
 
 Stage::Stage(InputManager& inputManager)
-	: m_World(inputManager), m_Renderer(m_World.GetCameraPtr())
+	: m_World(inputManager), m_Renderer(std::make_shared<Renderer>(m_World.GetCameraPtr()))
 {
 	initialize();
 }
@@ -42,6 +42,6 @@ void Stage::Update()
 
 void Stage::Render()
 {
-	m_Renderer.SetupRender();
+	m_Renderer->SetupRender();
 	m_World.Render(m_Renderer);
 }

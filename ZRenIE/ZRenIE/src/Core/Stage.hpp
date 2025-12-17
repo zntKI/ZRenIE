@@ -5,13 +5,15 @@
 
 #include "InputManager.hpp"
 
+#include <memory>
+
 // Abstract representation of a game stage or level/menu
 // TODO: Think about applying the correct design pattern here (TypeObject/Prototype/Subclass Sandbox)
 class Stage
 {
 private:
 	World m_World;
-	Renderer m_Renderer;
+	std::shared_ptr<Renderer> m_Renderer;
 
 public:
 	Stage(InputManager& inputManager);

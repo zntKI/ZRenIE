@@ -1,6 +1,7 @@
 #pragma once
 
-#include "../Utility/Observer.hpp"
+#include "Events/Sender.hpp"
+#include "Events/Observer.hpp"
 
 #include "Platform.hpp"
 
@@ -9,14 +10,11 @@
 #include <queue>
 #include <set>
 
-class InputManager
+class InputManager : public Sender
 {
 private:
 	static bool s_isInstantiated;
-
-	static std::vector<std::shared_ptr<Observer>> m_Observers;
-
-	static std::queue<Event> s_eventQueue;
+	static InputManager* instance;
 
 	static std::set<int> s_keyState;
 	static std::set<int> s_mouseBtnState;
@@ -29,10 +27,13 @@ public:
 	InputManager();
 	~InputManager();
 
-	void SetCallbacks(GLFWwindow* window);
+	/*static InputManager& instance()
+	{
+		static InputManager instance = InputManager();
+		return instance;
+	}*/
 
-	void AddObserver(std::shared_ptr<Observer> observer);
-	//void RemoveObserver(std::shared_ptr<Observer> observer);
+	void SetCallbacks(GLFWwindow* window);
 
 	void ProcessInput();
 
@@ -41,6 +42,4 @@ private:
 
 	static void mousePosCallback(GLFWwindow* window, double xpos, double ypos);
 	static void mouseBtnCallback(GLFWwindow* window, int button, int action, int mods);
-
-	void emptyQueue();
 };

@@ -26,7 +26,7 @@ public:
 	~Character();
 
 	virtual void Update();
-	virtual void Render(Renderer& renderer);
+	virtual void Render(std::shared_ptr<Renderer> renderer);
 
 	void AddChild(const std::shared_ptr<Character>& child);
 
@@ -34,5 +34,5 @@ public:
 
 protected:
 	void updateChildren();
-	void renderChildren(Renderer& renderer);
+	void renderChildren(std::shared_ptr<Renderer> renderer);
 };

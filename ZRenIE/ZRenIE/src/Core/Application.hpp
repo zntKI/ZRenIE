@@ -7,8 +7,10 @@
 
 #include "Stage.hpp"
 #include "Renderer.hpp"
+#include "UI/UIContext.hpp"
 
 #include <memory>
+#include <vector>
 
 /**
  * @brief The main application class.
@@ -45,6 +47,7 @@ public:
 	 * @return True if initialization was successful, false otherwise.
 	 */
 	bool Initialize(const WindowConfig& windowConfig);
+
 	/**
 	 * @brief Runs the main application loop.
 	 *
@@ -73,6 +76,9 @@ private:
 	// FileSystem m_FileSystem; // TODO: implement FileSystem class?
 
 	std::shared_ptr<Window> m_Window;
+
+	UIContext m_UIContext;
+
 	InputManager m_InputManager;
 
 	std::unique_ptr<Stage> m_Stage;

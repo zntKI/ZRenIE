@@ -1,6 +1,8 @@
 #include "Application.hpp"
 #include "../Utility/Utils.hpp"
 
+#include "Events/Observer.hpp"
+
 #include "Platform.hpp"
 
 #include <iostream>
@@ -41,6 +43,8 @@ bool Application::Initialize(const WindowConfig& windowConfig)
 
 	m_InputManager.SetCallbacks(m_Window->GetWindowPtr());
 
+	m_UIContext.InitImGui(m_Window->GetWindowPtr());
+
 	m_Stage = std::make_unique<Stage>(m_InputManager);
 
 	return true;
@@ -57,7 +61,7 @@ void Application::Run()
 		m_DeltaTime = currentFrame - m_LastFrame;
 		m_LastFrame = currentFrame;
 		lag += m_DeltaTime;
-		
+
 		// poll events
 		glfwPollEvents();
 
@@ -85,7 +89,15 @@ void Application::update()
 
 void Application::render()
 {
-	// TODO: Use stateProgress by asking the World to interpolate between states
+	m_UIContext.PreRenderUI();
 
+	m_UIContext.RenderStagePanel();
+	m_UIContext.RenderHierarchyPanel();
+
+	//ImGui::ShowDemoWindow();
+
+	// TODO: Use stateProgress by asking the World to interpolate between states
 	m_Stage->Render();
+
+	m_UIContext.PostRenderUI();
 }

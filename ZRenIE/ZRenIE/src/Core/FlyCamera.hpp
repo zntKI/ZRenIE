@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Character.hpp"
-#include "../Utility/Observer.hpp"
+#include "Events/Observer.hpp"
 
 #include "Platform.hpp"
 

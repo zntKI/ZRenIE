@@ -6,10 +6,7 @@
 
 #include <cassert>
 
-bool InputManager::s_isInstantiated = false;
-
-std::vector<std::shared_ptr<Observer>> InputManager::m_Observers;
-std::queue<Event> InputManager::s_eventQueue;
+InputManager* InputManager::instance = nullptr;
 
 std::set<int> InputManager::s_keyState;
 std::set<int> InputManager::s_mouseBtnState;
@@ -20,13 +17,12 @@ float InputManager::lastY;
 
 InputManager::InputManager()
 {
-	assert(!s_isInstantiated);
-	s_isInstantiated = true;
+	assert(!instance);
+	instance = this; // from this
 }
 
 InputManager::~InputManager()
 {
-	s_isInstantiated = false;
 }
 
 void InputManager::SetCallbacks(GLFWwindow* window)
@@ -35,11 +31,6 @@ void InputManager::SetCallbacks(GLFWwindow* window)
 
 	glfwSetCursorPosCallback(window, mousePosCallback);
 	glfwSetMouseButtonCallback(window, mouseBtnCallback);
-}
-
-void InputManager::AddObserver(std::shared_ptr<Observer> observer)
-{
-	m_Observers.push_back(observer);
 }
 
 void InputManager::ProcessInput()
@@ -57,19 +48,6 @@ void InputManager::ProcessInput()
 	}
 
 	emptyQueue();
-}
-
-void InputManager::emptyQueue()
-{
-	//Utils::logMessage("In2");
-	while (!s_eventQueue.empty())
-	{
-		for (auto& observer : m_Observers)
-		{
-			observer->OnNotify(s_eventQueue.front());
-		}
-		s_eventQueue.pop();
-	}
 }
 
 void InputManager::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -92,7 +70,7 @@ void InputManager::keyCallback(GLFWwindow* window, int key, int scancode, int ac
 		return;
 	}
 
-	s_eventQueue.push(event);
+	instance->s_eventQueue.push(event);
 }
 
 void InputManager::mousePosCallback(GLFWwindow* window, double xpos, double ypos)
@@ -100,7 +78,7 @@ void InputManager::mousePosCallback(GLFWwindow* window, double xpos, double ypos
 	Event event(EventType::ON_MOUSE_MOVE, -1,
 		std::make_tuple(static_cast<float>(xpos), static_cast<float>(ypos)));
 
-	s_eventQueue.push(event);
+	instance->s_eventQueue.push(event);
 }
 
 void InputManager::mouseBtnCallback(GLFWwindow* window, int button, int action, int mods)
@@ -123,5 +101,5 @@ void InputManager::mouseBtnCallback(GLFWwindow* window, int button, int action, 
 		return;
 	}
 
-	s_eventQueue.push(event);
+	instance->s_eventQueue.push(event);
 }
