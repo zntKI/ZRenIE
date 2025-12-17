@@ -12,7 +12,7 @@ class UIContext
 private:
 	static bool s_isInstantiated;
 
-	StagePanel m_ScenePanel;
+	StagePanel m_StagePanel;
 	HierarchyPanel m_HierarchyPanel;
 
 public:

@@ -26,7 +26,6 @@ int Application::GetScreenHeight()
 Application::Application(float target_update_rate)
 	: TARGET_UPDATE_RATE(target_update_rate), m_Window(std::make_shared<Window>())
 {
-	m_InputManager.AddObserver(std::dynamic_pointer_cast<Observer>(m_Window));
 }
 
 Application::~Application()
@@ -45,7 +44,17 @@ bool Application::Initialize(const WindowConfig& windowConfig)
 
 	m_UIContext.InitImGui(m_Window->GetWindowPtr());
 
-	m_Stage = std::make_unique<Stage>(m_InputManager);
+	m_Stage = std::make_unique<Stage>();
+
+	PostInitialize();
+
+	return true;
+}
+
+bool Application::PostInitialize()
+{
+	m_InputManager.AddObserver(std::dynamic_pointer_cast<Observer>(m_Window));
+	m_InputManager.AddObserver(std::dynamic_pointer_cast<Observer>(m_Stage->GetCameraPtr()));
 
 	return true;
 }

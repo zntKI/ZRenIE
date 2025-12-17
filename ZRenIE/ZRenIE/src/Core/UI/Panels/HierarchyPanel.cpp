@@ -6,6 +6,8 @@ void HierarchyPanel::render()
 {
 	ImGui::Begin("Characters");
 
+	processInput();
+
 	// Example content
 	ImGui::Text("Root");
 	ImGui::Indent();
@@ -13,4 +15,8 @@ void HierarchyPanel::render()
 	ImGui::Unindent();
 
 	ImGui::End();
+}
+
+void HierarchyPanel::processInput()
+{
 }

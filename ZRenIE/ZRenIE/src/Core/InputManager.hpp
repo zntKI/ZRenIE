@@ -13,11 +13,9 @@
 class InputManager : public Sender
 {
 private:
-	static bool s_isInstantiated;
 	static InputManager* instance;
 
-	static std::set<int> s_keyState;
-	static std::set<int> s_mouseBtnState;
+	static std::set<EventButton> s_buttonState;
 
 	static bool firstMouse;
 	static float lastX;
@@ -34,6 +32,8 @@ public:
 	}*/
 
 	void SetCallbacks(GLFWwindow* window);
+
+	static void AddObserver(std::shared_ptr<Observer> observer);
 
 	void ProcessInput();
 

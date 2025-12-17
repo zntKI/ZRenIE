@@ -47,6 +47,7 @@ public:
 	 * @return True if initialization was successful, false otherwise.
 	 */
 	bool Initialize(const WindowConfig& windowConfig);
+	bool PostInitialize();
 
 	/**
 	 * @brief Runs the main application loop.

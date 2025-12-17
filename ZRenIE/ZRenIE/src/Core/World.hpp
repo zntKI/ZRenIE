@@ -12,15 +12,10 @@
 
 class World : public Character
 {
-private:
-	std::shared_ptr<FlyCamera> m_Camera;
-
 public:
-	World(InputManager& inputManager);
+	World();
 	~World();
 
 	void Update() override;
 	void Render(std::shared_ptr<Renderer> renderer) override;
-
-	std::shared_ptr<FlyCamera> GetCameraPtr() const;
 };

@@ -7,4 +7,5 @@ class Panel
 {
 public:
 	virtual void render() = 0;
+	virtual void processInput() = 0;
 };

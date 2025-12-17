@@ -72,31 +72,31 @@ void FlyCamera::OnNotify(Event event)
 
 void FlyCamera::processKeyboardPress(EventData eventData)
 {
-	if (eventData.key == MOVE_FAST)
+	if (eventData.button == EventButton::KEY_LEFT_SHIFT)
 		m_CurrentMovementSpeed = MovementSpeedFast;
 }
 
 void FlyCamera::processKeyboardRepeat(EventData eventData)
 {
-	int keyCode = eventData.key;
+	auto keyCode = eventData.button;
 
-	if (keyCode == FORWARD)
+	if (keyCode == EventButton::KEY_W)
 		Position += Front * m_CurrentMovementSpeed;
-	if (keyCode == BACKWARD)
+	if (keyCode == EventButton::KEY_S)
 		Position -= Front * m_CurrentMovementSpeed;
-	if (keyCode == LEFT)
+	if (keyCode == EventButton::KEY_A)
 		Position -= Right * m_CurrentMovementSpeed;
-	if (keyCode == RIGHT)
+	if (keyCode == EventButton::KEY_D)
 		Position += Right * m_CurrentMovementSpeed;
-	if (keyCode == UP)
+	if (keyCode == EventButton::KEY_E)
 		Position += Up * m_CurrentMovementSpeed;
-	if (keyCode == DOWN)
+	if (keyCode == EventButton::KEY_Q)
 		Position -= Up * m_CurrentMovementSpeed;
 }
 
 void FlyCamera::processKeyboardRelease(EventData eventData)
 {
-	if (eventData.key == MOVE_FAST)
+	if (eventData.button == EventButton::KEY_LEFT_SHIFT)
 		m_CurrentMovementSpeed = MovementSpeed;
 }
 
@@ -135,7 +135,7 @@ void FlyCamera::processMouseMovement(EventData eventData)
 
 void FlyCamera::processMouseBtnPress(EventData eventData)
 {
-	if (eventData.mouseBtn == GLFW_MOUSE_BUTTON_RIGHT)
+	if (eventData.button == EventButton::MOUSE_RIGHT)
 	{
 		m_CameraInputMode = CameraIputMode::TRAVERSER;
 		m_FirstMouse = true;
@@ -153,7 +153,7 @@ void FlyCamera::processMouseBtnRepeat(EventData eventData)
 
 void FlyCamera::processMouseBtnRelease(EventData eventData)
 {
-	if (eventData.mouseBtn == GLFW_MOUSE_BUTTON_RIGHT)
+	if (eventData.button == EventButton::MOUSE_RIGHT)
 	{
 		m_CameraInputMode = CameraIputMode::OBSERVER;
 

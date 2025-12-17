@@ -12,7 +12,7 @@ class Sender
 protected:
 	std::vector<std::shared_ptr<Observer>> m_Observers;
 
-	std::queue<Event> s_eventQueue;
+	std::queue<Event> m_eventQueue;
 
 public:
 	void AddObserver(std::shared_ptr<Observer> observer);

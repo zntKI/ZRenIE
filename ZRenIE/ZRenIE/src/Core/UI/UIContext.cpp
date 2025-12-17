@@ -65,7 +65,7 @@ void UIContext::PreRenderUI()
 
 void UIContext::RenderStagePanel()
 {
-	m_ScenePanel.render();
+	m_StagePanel.render();
 }
 
 void UIContext::RenderHierarchyPanel()

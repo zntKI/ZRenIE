@@ -7,12 +7,12 @@ void Sender::AddObserver(std::shared_ptr<Observer> observer)
 
 void Sender::emptyQueue()
 {
-	while (!s_eventQueue.empty())
+	while (!m_eventQueue.empty())
 	{
 		for (auto& observer : m_Observers)
 		{
-			observer->OnNotify(s_eventQueue.front());
+			observer->OnNotify(m_eventQueue.front());
 		}
-		s_eventQueue.pop();
+		m_eventQueue.pop();
 	}
 }
