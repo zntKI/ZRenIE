@@ -42,7 +42,7 @@ bool Application::Initialize(const WindowConfig& windowConfig)
 
 	m_InputManager.SetCallbacks(m_Window->GetWindowPtr());
 
-	m_UIContext.InitImGui(m_Window->GetWindowPtr());
+	m_UIContext.InitUIContext(m_Window);
 
 	m_Stage = std::make_unique<Stage>();
 
@@ -55,6 +55,9 @@ bool Application::PostInitialize()
 {
 	m_InputManager.AddObserver(std::dynamic_pointer_cast<Observer>(m_Window));
 	m_InputManager.AddObserver(std::dynamic_pointer_cast<Observer>(m_Stage->GetCameraPtr()));
+
+	m_UIContext.AddObserverToStagePanel(std::dynamic_pointer_cast<Observer>(m_Stage->GetRendererPtr()));
+	m_UIContext.AddObserverToStagePanel(std::dynamic_pointer_cast<Observer>(m_Stage->GetCameraPtr()));
 
 	return true;
 }
@@ -79,6 +82,7 @@ void Application::Run()
 		{
 			// TODO: delegate input events queue to World?
 			m_InputManager.ProcessInput();
+			m_UIContext.ProcessInput();
 
 			update();
 			lag -= TARGET_UPDATE_RATE;
@@ -100,7 +104,7 @@ void Application::render()
 {
 	m_UIContext.PreRenderUI();
 
-	m_UIContext.RenderStagePanel();
+	m_UIContext.RenderStagePanel(m_Stage->GetRenderResultTexId());
 	m_UIContext.RenderHierarchyPanel();
 
 	//ImGui::ShowDemoWindow();

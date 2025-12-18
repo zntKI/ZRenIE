@@ -25,7 +25,10 @@ public:
 	void Update();
 	void Render();
 
+	unsigned int GetRenderResultTexId() const;
+
 	std::shared_ptr<FlyCamera> GetCameraPtr() const;
+	std::shared_ptr<Renderer> GetRendererPtr() const;
 
 private:
 	void initialize();

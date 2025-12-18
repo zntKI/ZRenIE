@@ -43,11 +43,24 @@ void Stage::Update()
 
 void Stage::Render()
 {
-	m_Renderer->SetupRender();
-	m_World.Render(m_Renderer);
+	if (m_Renderer->PreRender())
+	{
+		m_World.Render(m_Renderer);
+		m_Renderer->PostRender();
+	}
+}
+
+unsigned int Stage::GetRenderResultTexId() const
+{
+	return m_Renderer->GetRenderResultTexId();
 }
 
 std::shared_ptr<FlyCamera> Stage::GetCameraPtr() const
 {
 	return m_Camera;
+}
+
+std::shared_ptr<Renderer> Stage::GetRendererPtr() const
+{
+	return m_Renderer;
 }

@@ -19,7 +19,10 @@ const float PITCH = 0.0f;
 const float SPEED = .1f;
 const float SPEED_FAST = 2.f * SPEED;
 const float SENSITIVITY = 0.1f;
+
 const float ZOOM = 45.0f;
+const float NEAR_PLANE = .1f;
+const float FAR_PLANE = 100.f;
 
 
 // An abstract camera class that processes input and calculates the corresponding Euler Angles, Vectors and Matrices for use in OpenGL
@@ -39,7 +42,10 @@ public:
 	float MovementSpeed;
 	float MovementSpeedFast;
 	float MouseSensitivity;
+
 	float Zoom;
+	float NearPlane;
+	float FarPlane;
 
 private:
 	CameraIputMode m_CameraInputMode = CameraIputMode::OBSERVER;
@@ -60,6 +66,7 @@ public:
 
 	// returns the view matrix calculated using Euler Angles and the LookAt Matrix
 	glm::mat4 GetViewMatrix() const;
+	glm::mat4 GetProjMatrix(float aspectRatio) const;
 
 	void OnNotify(Event event) override;
 

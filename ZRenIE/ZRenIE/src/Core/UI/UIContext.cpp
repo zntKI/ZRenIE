@@ -9,12 +9,23 @@
 bool UIContext::s_isInstantiated = false;
 
 UIContext::UIContext()
+	: m_GLFWWindow(nullptr),
+	m_StagePanel(nullptr)
 {
 	assert(!s_isInstantiated);
 	s_isInstantiated = true;
 }
 
-void UIContext::InitImGui(GLFWwindow* window)
+void UIContext::InitUIContext(std::shared_ptr<Window> GLFWWindow)
+{
+	m_GLFWWindow = GLFWWindow;
+
+	m_StagePanel = std::make_unique<StagePanel>(m_GLFWWindow);
+
+	initImGui();
+}
+
+void UIContext::initImGui()
 {
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -23,7 +34,7 @@ void UIContext::InitImGui(GLFWwindow* window)
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // IF using Docking Branch
 
 	// Setup Platform/Renderer backends
-	ImGui_ImplGlfw_InitForOpenGL(window, true);          // Second param install_callback=true will install GLFW callbacks and chain to existing ones.
+	ImGui_ImplGlfw_InitForOpenGL(m_GLFWWindow->GetWindowPtr(), true);          // Second param install_callback=true will install GLFW callbacks and chain to existing ones.
 	ImGui_ImplOpenGL3_Init();
 }
 
@@ -63,18 +74,29 @@ void UIContext::PreRenderUI()
 	ImGui::End();
 }
 
-void UIContext::RenderStagePanel()
+void UIContext::RenderStagePanel(unsigned int renderResultTexId)
 {
-	m_StagePanel.render();
+	m_StagePanel->Render(renderResultTexId);
 }
 
 void UIContext::RenderHierarchyPanel()
 {
-	m_HierarchyPanel.render();
+	m_HierarchyPanel.Render();
 }
 
 void UIContext::PostRenderUI()
 {
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+}
+
+void UIContext::ProcessInput()
+{
+	m_StagePanel->ProcessInput();
+
+}
+
+void UIContext::AddObserverToStagePanel(std::shared_ptr<Observer> observer)
+{
+	m_StagePanel->AddObserver(observer);
 }

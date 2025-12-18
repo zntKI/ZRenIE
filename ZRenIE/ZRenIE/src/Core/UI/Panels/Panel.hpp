@@ -5,7 +5,6 @@
 /// </summary>
 class Panel
 {
-public:
-	virtual void render() = 0;
-	virtual void processInput() = 0;
+protected:
+	virtual void checkForInput() = 0;
 };

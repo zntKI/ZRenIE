@@ -5,6 +5,8 @@
 class HierarchyPanel : public Panel
 {
 public:
-	void render() override;
-	void processInput() override;
+	void Render();
+
+protected:
+	void checkForInput() override;
 };

@@ -15,9 +15,12 @@ enum class EventType
 	ON_KEY_RELEASE,
 	// Mouse
 	ON_MOUSE_MOVE,
+	ON_MOUSE_DRAG,
 	ON_MOUSE_PRESS,
 	ON_MOUSE_REPEAT,
 	ON_MOUSE_RELEASE,
+	// Window
+	ON_WINDOW_RESIZE
 };
 
 typedef int EventButtonCode;
@@ -125,14 +128,15 @@ public:
 struct EventData
 {
 	EventData(const EventButton button,
-		const std::tuple<float, float>& mousePos,
+		const std::tuple<float, float>& twoValueChange,
 		GLFWwindow* window)
-		: button(button), mousePos(mousePos), window(window)
+		: button(button), twoValueChange(twoValueChange), window(window)
 	{
 	};
 
 	EventButton button;
-	std::tuple<float, float> mousePos;
+	// Could be mouse position change or viewport size change
+	std::tuple<float, float> twoValueChange;
 
 	GLFWwindow* window;
 };
@@ -140,9 +144,9 @@ struct EventData
 struct Event
 {
 	Event(const EventType eventType, const EventButton button,
-		const std::tuple<float, float>& mousePos = std::make_tuple(-1.f, -1.f),
+		const std::tuple<float, float>& twoValueChange = std::make_tuple(-1.f, -1.f),
 		GLFWwindow* window = nullptr)
-		: eventType(eventType), eventData(button, mousePos, window)
+		: eventType(eventType), eventData(button, twoValueChange, window)
 	{
 	};
 

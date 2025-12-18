@@ -2,11 +2,11 @@
 
 #include <imgui.h>
 
-void HierarchyPanel::render()
+void HierarchyPanel::Render()
 {
 	ImGui::Begin("Characters");
 
-	processInput();
+	checkForInput();
 
 	// Example content
 	ImGui::Text("Root");
@@ -17,6 +17,6 @@ void HierarchyPanel::render()
 	ImGui::End();
 }
 
-void HierarchyPanel::processInput()
+void HierarchyPanel::checkForInput()
 {
 }
