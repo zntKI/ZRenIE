@@ -7,8 +7,10 @@
 
 #include "Stage.hpp"
 #include "Renderer.hpp"
+#include "UI/UIContext.hpp"
 
 #include <memory>
+#include <vector>
 
 /**
  * @brief The main application class.
@@ -20,8 +22,8 @@
 class Application
 {
 public:
-	static int GetScreenWidth();
-	static int GetScreenHeight();
+	static unsigned int GetScreenWidth();
+	static unsigned int GetScreenHeight();
 
 public:
 	/**
@@ -45,6 +47,8 @@ public:
 	 * @return True if initialization was successful, false otherwise.
 	 */
 	bool Initialize(const WindowConfig& windowConfig);
+	bool PostInitialize();
+
 	/**
 	 * @brief Runs the main application loop.
 	 *
@@ -73,6 +77,9 @@ private:
 	// FileSystem m_FileSystem; // TODO: implement FileSystem class?
 
 	std::shared_ptr<Window> m_Window;
+
+	UIContext m_UIContext;
+
 	InputManager m_InputManager;
 
 	std::unique_ptr<Stage> m_Stage;
@@ -82,6 +89,6 @@ private:
 	float m_DeltaTime = 0.f;
 	float m_LastFrame = 0.f;
 
-	static int s_ScreenWidth;
-	static int s_ScreenHeight;
+	static unsigned int s_ScreenWidth;
+	static unsigned int s_ScreenHeight;
 };

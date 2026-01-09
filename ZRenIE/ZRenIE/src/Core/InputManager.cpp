@@ -4,15 +4,13 @@
 
 #include "../Utility/Utils.hpp"
 
+#include <imgui.h>
+
 #include <cassert>
 
-bool InputManager::s_isInstantiated = false;
+InputManager* InputManager::instance = nullptr;
 
-std::vector<std::shared_ptr<Observer>> InputManager::m_Observers;
-std::queue<Event> InputManager::s_eventQueue;
-
-std::set<int> InputManager::s_keyState;
-std::set<int> InputManager::s_mouseBtnState;
+std::set<EventButton> InputManager::s_buttonState;
 
 bool InputManager::firstMouse = true;
 float InputManager::lastX;
@@ -20,13 +18,13 @@ float InputManager::lastY;
 
 InputManager::InputManager()
 {
-	assert(!s_isInstantiated);
-	s_isInstantiated = true;
+	assert(!instance);
+	instance = this; // from this
 }
 
 InputManager::~InputManager()
 {
-	s_isInstantiated = false;
+	instance = nullptr;
 }
 
 void InputManager::SetCallbacks(GLFWwindow* window)
@@ -39,89 +37,71 @@ void InputManager::SetCallbacks(GLFWwindow* window)
 
 void InputManager::AddObserver(std::shared_ptr<Observer> observer)
 {
-	m_Observers.push_back(observer);
+	instance->m_Observers.push_back(observer);
 }
 
 void InputManager::ProcessInput()
 {
-	for (int key : s_keyState)
+	for (EventButton button : s_buttonState)
 	{
-		Event event(EventType::ON_KEY_REPEAT, key);
-		s_eventQueue.push(event);
-	}
-
-	for (int button : s_mouseBtnState)
-	{
-		Event event(EventType::ON_MOUSE_REPEAT, -1, std::make_tuple(-1.f, -1.f), button);
-		s_eventQueue.push(event);
+		Event event(EventType::ON_KEY_REPEAT, button);
+		m_eventQueue.push(event);
 	}
 
 	emptyQueue();
 }
 
-void InputManager::emptyQueue()
-{
-	//Utils::logMessage("In2");
-	while (!s_eventQueue.empty())
-	{
-		for (auto& observer : m_Observers)
-		{
-			observer->OnNotify(s_eventQueue.front());
-		}
-		s_eventQueue.pop();
-	}
-}
-
 void InputManager::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	if (key < 0 || key > GLFW_KEY_LAST)
+	if (key < 0 || key > GLFW_KEY_LAST
+		|| ImGui::GetIO().WantCaptureKeyboard)
 		return;
 
-	Event event;
+	EventButton eb(key);
 	switch (action)
 	{
 	case GLFW_PRESS:
-		s_keyState.insert(key);
-		event = Event(EventType::ON_KEY_PRESS, key);
+		s_buttonState.insert(eb);
+		instance->m_eventQueue.emplace(EventType::ON_KEY_PRESS, eb);
 		break;
 	case GLFW_RELEASE:
-		s_keyState.erase(key);
-		event = Event(EventType::ON_KEY_RELEASE, key);
+		s_buttonState.erase(eb);
+		instance->m_eventQueue.emplace(EventType::ON_KEY_RELEASE, eb);
 		break;
 	default:
 		return;
 	}
-
-	s_eventQueue.push(event);
 }
 
 void InputManager::mousePosCallback(GLFWwindow* window, double xpos, double ypos)
 {
-	Event event(EventType::ON_MOUSE_MOVE, -1,
+	if (ImGui::GetIO().WantCaptureMouse)
+		return;
+
+	Event event(EventType::ON_MOUSE_MOVE, EventButton(GLFW_KEY_UNKNOWN),
 		std::make_tuple(static_cast<float>(xpos), static_cast<float>(ypos)));
 
-	s_eventQueue.push(event);
+	instance->m_eventQueue.push(event);
 }
 
 void InputManager::mouseBtnCallback(GLFWwindow* window, int button, int action, int mods)
 {
-	if (button < 0 || button > GLFW_MOUSE_BUTTON_LAST)
+	if (button < 0 || button > GLFW_MOUSE_BUTTON_LAST
+		|| ImGui::GetIO().WantCaptureMouse)
 		return;
 
-	Event event;
+	EventButton eb(button);
 	switch (action)
 	{
 	case GLFW_PRESS:
-		s_mouseBtnState.insert(button);
-		event = Event(EventType::ON_MOUSE_PRESS, -1, std::make_tuple(-1.f, -1.f), button, window);
+		s_buttonState.insert(eb);
+		instance->m_eventQueue.emplace(EventType::ON_MOUSE_PRESS, eb, std::make_tuple(-1.f, -1.f), window);
 		break;
 	case GLFW_RELEASE:
-		s_mouseBtnState.erase(button);
-		event = Event(EventType::ON_MOUSE_RELEASE, -1, std::make_tuple(-1.f, -1.f), button, window);
+		s_buttonState.erase(eb);
+		instance->m_eventQueue.emplace(EventType::ON_MOUSE_RELEASE, eb, std::make_tuple(-1.f, -1.f), window);
 		break;
 	default:
 		return;
 	}
-
-	s_eventQueue.push(event);
 }

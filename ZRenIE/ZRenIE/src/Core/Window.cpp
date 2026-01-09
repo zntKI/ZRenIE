@@ -46,7 +46,7 @@ void Window::SwapBuffers()
 
 void Window::OnNotify(Event event)
 {
-	if (event.eventType == EventType::ON_KEY_PRESS && event.eventData.key == GLFW_KEY_ESCAPE)
+	if (event.eventType == EventType::ON_KEY_PRESS && event.eventData.button == EventButton::KEY_ESCAPE)
 	{
 		glfwSetWindowShouldClose(m_Window, true);
 	}

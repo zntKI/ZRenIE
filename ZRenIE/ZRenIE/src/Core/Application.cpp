@@ -1,6 +1,8 @@
 #include "Application.hpp"
 #include "../Utility/Utils.hpp"
 
+#include "Events/Observer.hpp"
+
 #include "Platform.hpp"
 
 #include <iostream>
@@ -8,15 +10,15 @@
 // TODO: Implement logging system
 
 
-int Application::s_ScreenWidth = 0;
-int Application::s_ScreenHeight = 0;
+unsigned int Application::s_ScreenWidth = 0;
+unsigned int Application::s_ScreenHeight = 0;
 
-int Application::GetScreenWidth()
+unsigned int Application::GetScreenWidth()
 {
 	return s_ScreenWidth;
 }
 
-int Application::GetScreenHeight()
+unsigned int Application::GetScreenHeight()
 {
 	return s_ScreenHeight;
 }
@@ -24,7 +26,6 @@ int Application::GetScreenHeight()
 Application::Application(float target_update_rate)
 	: TARGET_UPDATE_RATE(target_update_rate), m_Window(std::make_shared<Window>())
 {
-	m_InputManager.AddObserver(std::dynamic_pointer_cast<Observer>(m_Window));
 }
 
 Application::~Application()
@@ -41,7 +42,33 @@ bool Application::Initialize(const WindowConfig& windowConfig)
 
 	m_InputManager.SetCallbacks(m_Window->GetWindowPtr());
 
-	m_Stage = std::make_unique<Stage>(m_InputManager);
+	m_UIContext.InitUIContext(m_Window);
+
+	m_Stage = std::make_unique<Stage>(
+		StageConfig
+		{
+			RendererConfig
+			{
+				/* m_WorldCamera */ nullptr,
+				/* shouldRenderToFramebuffer */ true,
+			}
+		}
+	);
+
+	PostInitialize();
+
+	return true;
+}
+
+bool Application::PostInitialize()
+{
+	m_InputManager.AddObserver(std::dynamic_pointer_cast<Observer>(m_Window));
+	m_InputManager.AddObserver(std::dynamic_pointer_cast<Observer>(m_Stage->GetCameraPtr()));
+
+	m_UIContext.AddObserverToStagePanel(std::dynamic_pointer_cast<Observer>(
+		m_Stage->GetRendererPtr()->GetImGuiFramebuffer())
+	);
+	m_UIContext.AddObserverToStagePanel(std::dynamic_pointer_cast<Observer>(m_Stage->GetCameraPtr()));
 
 	return true;
 }
@@ -57,7 +84,7 @@ void Application::Run()
 		m_DeltaTime = currentFrame - m_LastFrame;
 		m_LastFrame = currentFrame;
 		lag += m_DeltaTime;
-		
+
 		// poll events
 		glfwPollEvents();
 
@@ -66,6 +93,7 @@ void Application::Run()
 		{
 			// TODO: delegate input events queue to World?
 			m_InputManager.ProcessInput();
+			m_UIContext.ProcessInput();
 
 			update();
 			lag -= TARGET_UPDATE_RATE;
@@ -79,13 +107,18 @@ void Application::Run()
 
 void Application::update()
 {
-	// Empty the event queue from the InputHandler
 	m_Stage->Update();
 }
 
 void Application::render()
 {
-	// TODO: Use stateProgress by asking the World to interpolate between states
+	m_UIContext.PreRenderUI();
 
+	m_UIContext.RenderStagePanel();
+	m_UIContext.RenderHierarchyPanel();
+
+	// TODO: Use stateProgress by asking the World to interpolate between states
 	m_Stage->Render();
+
+	m_UIContext.PostRenderUI();
 }

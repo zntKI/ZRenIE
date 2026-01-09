@@ -6,9 +6,14 @@
 
 #include "Character.hpp"
 
-Stage::Stage(InputManager& inputManager)
-	: m_World(inputManager), m_Renderer(m_World.GetCameraPtr())
+Stage::Stage(const StageConfig& stageConfig)
+	: m_Camera(std::make_shared<FlyCamera>(glm::vec3(0.f, 0.f, 3.f))),
+	m_Renderer(nullptr)
 {
+	StageConfig stCf = stageConfig;
+	stCf.rendererConfig.m_WorldCamera = m_Camera;
+	m_Renderer = std::make_shared<Renderer>(stCf.rendererConfig);
+
 	initialize();
 }
 
@@ -42,6 +47,19 @@ void Stage::Update()
 
 void Stage::Render()
 {
-	m_Renderer.SetupRender();
+	m_Renderer->PreRender();
+
 	m_World.Render(m_Renderer);
+
+	m_Renderer->PostRender();
+}
+
+std::shared_ptr<FlyCamera> Stage::GetCameraPtr() const
+{
+	return m_Camera;
+}
+
+std::shared_ptr<Renderer> Stage::GetRendererPtr() const
+{
+	return m_Renderer;
 }

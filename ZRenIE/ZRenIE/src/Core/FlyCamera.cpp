@@ -4,7 +4,8 @@
 #include "../Utility/Utils.hpp"
 
 FlyCamera::FlyCamera(glm::vec3 position, glm::vec3 up, float yaw, float pitch)
-	: Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MovementSpeedFast(SPEED_FAST), m_CurrentMovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM),
+	: Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MovementSpeedFast(SPEED_FAST), m_CurrentMovementSpeed(SPEED), MouseSensitivity(SENSITIVITY),
+	Zoom(ZOOM), NearPlane(NEAR_PLANE), FarPlane(FAR_PLANE),
 	m_LastX(Application::GetScreenWidth() / 2.f), m_LastY(Application::GetScreenHeight() / 2.f)
 {
 	Position = position;
@@ -15,7 +16,8 @@ FlyCamera::FlyCamera(glm::vec3 position, glm::vec3 up, float yaw, float pitch)
 }
 
 FlyCamera::FlyCamera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch)
-	: Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MovementSpeedFast(SPEED_FAST), m_CurrentMovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM),
+	: Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MovementSpeedFast(SPEED_FAST), m_CurrentMovementSpeed(SPEED), MouseSensitivity(SENSITIVITY),
+	Zoom(ZOOM), NearPlane(NEAR_PLANE), FarPlane(FAR_PLANE),
 	m_LastX(Application::GetScreenWidth() / 2.f), m_LastY(Application::GetScreenHeight() / 2.f)
 {
 	Position = glm::vec3(posX, posY, posZ);
@@ -28,6 +30,11 @@ FlyCamera::FlyCamera(float posX, float posY, float posZ, float upX, float upY, f
 glm::mat4 FlyCamera::GetViewMatrix() const
 {
 	return glm::lookAt(Position, Position + Front, Up);
+}
+
+glm::mat4 FlyCamera::GetProjMatrix(float aspectRatio) const
+{
+	return glm::perspective(glm::radians(Zoom), aspectRatio, NearPlane, FarPlane);
 }
 
 void FlyCamera::OnNotify(Event event)
@@ -54,6 +61,7 @@ void FlyCamera::OnNotify(Event event)
 		break;
 		// Mouse
 	case EventType::ON_MOUSE_MOVE:
+	case EventType::ON_MOUSE_DRAG:
 		processMouseMovement(event.eventData);
 		break;
 	case EventType::ON_MOUSE_PRESS:
@@ -72,38 +80,38 @@ void FlyCamera::OnNotify(Event event)
 
 void FlyCamera::processKeyboardPress(EventData eventData)
 {
-	if (eventData.key == MOVE_FAST)
+	if (eventData.button == EventButton::KEY_LEFT_SHIFT)
 		m_CurrentMovementSpeed = MovementSpeedFast;
 }
 
 void FlyCamera::processKeyboardRepeat(EventData eventData)
 {
-	int keyCode = eventData.key;
+	auto keyCode = eventData.button;
 
-	if (keyCode == FORWARD)
+	if (keyCode == EventButton::KEY_W)
 		Position += Front * m_CurrentMovementSpeed;
-	if (keyCode == BACKWARD)
+	if (keyCode == EventButton::KEY_S)
 		Position -= Front * m_CurrentMovementSpeed;
-	if (keyCode == LEFT)
+	if (keyCode == EventButton::KEY_A)
 		Position -= Right * m_CurrentMovementSpeed;
-	if (keyCode == RIGHT)
+	if (keyCode == EventButton::KEY_D)
 		Position += Right * m_CurrentMovementSpeed;
-	if (keyCode == UP)
+	if (keyCode == EventButton::KEY_E)
 		Position += Up * m_CurrentMovementSpeed;
-	if (keyCode == DOWN)
+	if (keyCode == EventButton::KEY_Q)
 		Position -= Up * m_CurrentMovementSpeed;
 }
 
 void FlyCamera::processKeyboardRelease(EventData eventData)
 {
-	if (eventData.key == MOVE_FAST)
+	if (eventData.button == EventButton::KEY_LEFT_SHIFT)
 		m_CurrentMovementSpeed = MovementSpeed;
 }
 
 void FlyCamera::processMouseMovement(EventData eventData)
 {
-	float xpos = get<0>(eventData.mousePos);
-	float ypos = get<1>(eventData.mousePos);
+	float xpos = get<0>(eventData.twoValueChange);
+	float ypos = get<1>(eventData.twoValueChange);
 
 	if (m_FirstMouse) // initially set to true
 	{
@@ -135,7 +143,7 @@ void FlyCamera::processMouseMovement(EventData eventData)
 
 void FlyCamera::processMouseBtnPress(EventData eventData)
 {
-	if (eventData.mouseBtn == GLFW_MOUSE_BUTTON_RIGHT)
+	if (eventData.button == EventButton::MOUSE_RIGHT)
 	{
 		m_CameraInputMode = CameraIputMode::TRAVERSER;
 		m_FirstMouse = true;
@@ -153,7 +161,7 @@ void FlyCamera::processMouseBtnRepeat(EventData eventData)
 
 void FlyCamera::processMouseBtnRelease(EventData eventData)
 {
-	if (eventData.mouseBtn == GLFW_MOUSE_BUTTON_RIGHT)
+	if (eventData.button == EventButton::MOUSE_RIGHT)
 	{
 		m_CameraInputMode = CameraIputMode::OBSERVER;
 
