@@ -10,15 +10,15 @@
 // TODO: Implement logging system
 
 
-int Application::s_ScreenWidth = 0;
-int Application::s_ScreenHeight = 0;
+unsigned int Application::s_ScreenWidth = 0;
+unsigned int Application::s_ScreenHeight = 0;
 
-int Application::GetScreenWidth()
+unsigned int Application::GetScreenWidth()
 {
 	return s_ScreenWidth;
 }
 
-int Application::GetScreenHeight()
+unsigned int Application::GetScreenHeight()
 {
 	return s_ScreenHeight;
 }
@@ -44,7 +44,16 @@ bool Application::Initialize(const WindowConfig& windowConfig)
 
 	m_UIContext.InitUIContext(m_Window);
 
-	m_Stage = std::make_unique<Stage>();
+	m_Stage = std::make_unique<Stage>(
+		StageConfig
+		{
+			RendererConfig
+			{
+				/* m_WorldCamera */ nullptr,
+				/* shouldRenderToFramebuffer */ true,
+			}
+		}
+	);
 
 	PostInitialize();
 
@@ -56,7 +65,9 @@ bool Application::PostInitialize()
 	m_InputManager.AddObserver(std::dynamic_pointer_cast<Observer>(m_Window));
 	m_InputManager.AddObserver(std::dynamic_pointer_cast<Observer>(m_Stage->GetCameraPtr()));
 
-	m_UIContext.AddObserverToStagePanel(std::dynamic_pointer_cast<Observer>(m_Stage->GetRendererPtr()));
+	m_UIContext.AddObserverToStagePanel(std::dynamic_pointer_cast<Observer>(
+		m_Stage->GetRendererPtr()->GetImGuiFramebuffer())
+	);
 	m_UIContext.AddObserverToStagePanel(std::dynamic_pointer_cast<Observer>(m_Stage->GetCameraPtr()));
 
 	return true;
@@ -96,7 +107,6 @@ void Application::Run()
 
 void Application::update()
 {
-	// Empty the event queue from the InputHandler
 	m_Stage->Update();
 }
 
@@ -104,10 +114,8 @@ void Application::render()
 {
 	m_UIContext.PreRenderUI();
 
-	m_UIContext.RenderStagePanel(m_Stage->GetRenderResultTexId());
+	m_UIContext.RenderStagePanel();
 	m_UIContext.RenderHierarchyPanel();
-
-	//ImGui::ShowDemoWindow();
 
 	// TODO: Use stateProgress by asking the World to interpolate between states
 	m_Stage->Render();

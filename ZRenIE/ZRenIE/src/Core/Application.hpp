@@ -22,8 +22,8 @@
 class Application
 {
 public:
-	static int GetScreenWidth();
-	static int GetScreenHeight();
+	static unsigned int GetScreenWidth();
+	static unsigned int GetScreenHeight();
 
 public:
 	/**
@@ -89,6 +89,6 @@ private:
 	float m_DeltaTime = 0.f;
 	float m_LastFrame = 0.f;
 
-	static int s_ScreenWidth;
-	static int s_ScreenHeight;
+	static unsigned int s_ScreenWidth;
+	static unsigned int s_ScreenHeight;
 };

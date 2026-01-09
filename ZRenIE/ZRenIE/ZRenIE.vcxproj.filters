@@ -55,7 +55,8 @@
     <ClInclude Include="src\Core\UI\UIContext.hpp" />
     <ClInclude Include="src\Core\UI\Panels\HierarchyPanel.hpp" />
     <ClInclude Include="src\Core\Events\Sender.hpp" />
-    <ClInclude Include="src\Core\Framebuffer.hpp" />
+    <ClInclude Include="src\Core\Framebuffers\Framebuffer.hpp" />
+    <ClInclude Include="src\Core\Framebuffers\ImGuiFramebuffer.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\vendor\glad\src\glad.c">
@@ -114,7 +115,8 @@
     <ClCompile Include="src\Core\UI\UIContext.cpp" />
     <ClCompile Include="src\Core\UI\Panels\HierarchyPanel.cpp" />
     <ClCompile Include="src\Core\Events\Sender.cpp" />
-    <ClCompile Include="src\Core\Framebuffer.cpp" />
+    <ClCompile Include="src\Core\Framebuffers\Framebuffer.cpp" />
+    <ClCompile Include="src\Core\Framebuffers\ImGuiFramebuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Shaders\Color\colorVS.glsl" />

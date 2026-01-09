@@ -1,16 +1,24 @@
 #include "Renderer.hpp"
-#include "Character.hpp"
 
+#include "Application.hpp"
+
+#include "Framebuffers/ImGuiFramebuffer.hpp"
+
+#include "Character.hpp"
 #include "Traits/TModel.hpp"
 
 #include "../Utility/Utils.hpp"
 
-#include <tuple>
-
-Renderer::Renderer(std::shared_ptr<FlyCamera> worldCamera)
-	: m_ImGuiTexFramebuffer(nullptr)
+Renderer::Renderer(const RendererConfig& rendererConfig)
+	: m_ImGuiFramebuffer(
+		rendererConfig.shouldRenderToFramebuffer ?
+		std::make_shared<ImGuiFramebuffer>(
+			Application::GetScreenWidth(), Application::GetScreenHeight()
+		) :
+		nullptr
+	)
 {
-	m_WorldCamera = worldCamera;
+	m_WorldCamera = rendererConfig.m_WorldCamera;
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
@@ -20,17 +28,15 @@ Renderer::~Renderer()
 {
 }
 
-bool Renderer::PreRender()
+void Renderer::PreRender()
 {
-	if (m_ImGuiTexFramebuffer)
+	if (m_ImGuiFramebuffer)
 	{
-		m_ImGuiTexFramebuffer->Use();
-		glClearColor(0.f, 0.25f, .5f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		return true;
+		m_ImGuiFramebuffer->Use();
 	}
-	return false;
+
+	glClearColor(0.f, 0.25f, .5f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void Renderer::Render(std::shared_ptr<Character> character)
@@ -48,47 +54,25 @@ void Renderer::Render(std::shared_ptr<Character> character)
 
 	glm::mat4 model = transformTrait.GetModelMatrix();
 	glm::mat4 view = m_WorldCamera->GetViewMatrix();
-	glm::mat4 projection = m_WorldCamera->GetProjMatrix(m_ImGuiTexFramebuffer->GetAspectRatio());
+	glm::mat4 projection = m_WorldCamera->GetProjMatrix(m_ImGuiFramebuffer->GetAspectRatio());
 
 	modelTrait->Draw(projection * view * model);
 }
 
 void Renderer::PostRender()
 {
-	if (m_ImGuiTexFramebuffer)
+	if (m_ImGuiFramebuffer)
 	{
-		m_ImGuiTexFramebuffer->Unuse();
+		m_ImGuiFramebuffer->Unuse(Application::GetScreenWidth(), Application::GetScreenHeight());
 	}
 }
 
-unsigned int Renderer::GetRenderResultTexId() const
+std::shared_ptr<Framebuffer> Renderer::GetImGuiFramebuffer() const
 {
-	if (!m_ImGuiTexFramebuffer)
+	if (!m_ImGuiFramebuffer)
+	{
+		Utils::logMessage("Framebuffer was not created previously!");
 		return 0;
-	else
-		return m_ImGuiTexFramebuffer->GetTexId();
-}
-
-void Renderer::OnNotify(Event event)
-{
-	switch (event.eventType)
-	{
-	case EventType::ON_WINDOW_RESIZE:
-	{
-		unsigned int panelWidth = static_cast<unsigned int>(get<0>(event.eventData.twoValueChange));
-		unsigned int panelHeight = static_cast<unsigned int>(get<1>(event.eventData.twoValueChange));
-
-		if (!m_ImGuiTexFramebuffer)
-		{
-			m_ImGuiTexFramebuffer = std::make_shared<Framebuffer>(panelWidth, panelHeight);
-		}
-		else
-		{
-			m_ImGuiTexFramebuffer->Resize(panelWidth, panelHeight);
-		}
-		break;
 	}
-	default:
-		break;
-	}
+	return m_ImGuiFramebuffer;
 }

@@ -1,29 +1,34 @@
 #pragma once
 
 #include "FlyCamera.hpp"
-#include "Framebuffer.hpp"
+#include "Framebuffers/Framebuffer.hpp"
 
 #include <memory>
 
 class Character;
 
-class Renderer : public Observer
+struct RendererConfig
+{
+	std::shared_ptr<FlyCamera> m_WorldCamera;
+
+	bool shouldRenderToFramebuffer;
+};
+
+class Renderer
 {
 private:
 	std::shared_ptr<FlyCamera> m_WorldCamera;
 
-	std::shared_ptr<Framebuffer> m_ImGuiTexFramebuffer;
+	// ImGui framebuffer
+	std::shared_ptr<Framebuffer> m_ImGuiFramebuffer;
 
 public:
-	Renderer(std::shared_ptr<FlyCamera> worldCamera);
+	Renderer(const RendererConfig& rendererConfig);
 	~Renderer();
 
-	bool PreRender();
+	void PreRender();
 	void Render(std::shared_ptr<Character> character);
 	void PostRender();
 
-	unsigned int GetRenderResultTexId() const;
-
-	// Inherited via Observer
-	void OnNotify(Event event) override;
+	std::shared_ptr<Framebuffer> GetImGuiFramebuffer() const;
 };

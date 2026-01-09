@@ -1,5 +1,7 @@
 #include "UIContext.hpp"
 
+#include "../Framebuffers/Framebuffer.hpp"
+
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
@@ -74,9 +76,9 @@ void UIContext::PreRenderUI()
 	ImGui::End();
 }
 
-void UIContext::RenderStagePanel(unsigned int renderResultTexId)
+void UIContext::RenderStagePanel()
 {
-	m_StagePanel->Render(renderResultTexId);
+	m_StagePanel->Render();
 }
 
 void UIContext::RenderHierarchyPanel()
@@ -98,5 +100,10 @@ void UIContext::ProcessInput()
 
 void UIContext::AddObserverToStagePanel(std::shared_ptr<Observer> observer)
 {
+	if (auto framebuffer = std::dynamic_pointer_cast<Framebuffer>(observer);
+		framebuffer != nullptr)
+	{
+		m_StagePanel->AssignFramebuffer(framebuffer);
+	}
 	m_StagePanel->AddObserver(observer);
 }

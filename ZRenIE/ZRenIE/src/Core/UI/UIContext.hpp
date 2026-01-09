@@ -27,7 +27,7 @@ public:
 
 	void PreRenderUI();
 
-	void RenderStagePanel(unsigned int renderResultTexId);
+	void RenderStagePanel();
 	void RenderHierarchyPanel();
 
 	void PostRenderUI();

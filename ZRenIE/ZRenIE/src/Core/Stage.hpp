@@ -8,6 +8,11 @@
 
 #include <memory>
 
+struct StageConfig
+{
+	RendererConfig rendererConfig;
+};
+
 // Abstract representation of a game stage or level/menu
 // TODO: Think about applying the correct design pattern here (TypeObject/Prototype/Subclass Sandbox)
 class Stage
@@ -19,13 +24,11 @@ private:
 	std::shared_ptr<Renderer> m_Renderer;
 
 public:
-	Stage();
+	Stage(const StageConfig& stageConfig);
 	~Stage();
 
 	void Update();
 	void Render();
-
-	unsigned int GetRenderResultTexId() const;
 
 	std::shared_ptr<FlyCamera> GetCameraPtr() const;
 	std::shared_ptr<Renderer> GetRendererPtr() const;

@@ -5,6 +5,7 @@
 #include "../../Events/Sender.hpp"
 
 #include "../../Window.hpp"
+#include "../../Framebuffers/Framebuffer.hpp"
 
 #include <memory>
 #include <set>
@@ -13,6 +14,7 @@ class StagePanel : public Panel, public Sender
 {
 private:
 	std::shared_ptr<Window> m_GLFWWindow;
+	std::shared_ptr<Framebuffer> m_ImGuiFramebuffer;
 
 	ImVec2 previousWindowSize{0.f, 0.f};
 
@@ -23,8 +25,9 @@ private:
 
 public:
 	StagePanel(std::shared_ptr<Window> GLFWWindow);
+	void AssignFramebuffer(std::shared_ptr<Framebuffer> imGuiFramebuffer);
 
-	void Render(unsigned int renderResultTexId);
+	void Render();
 
 	void ProcessInput();
 

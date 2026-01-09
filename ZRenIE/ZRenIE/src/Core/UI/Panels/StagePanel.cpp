@@ -13,6 +13,11 @@ StagePanel::StagePanel(std::shared_ptr<Window> GLFWWindow)
 {
 }
 
+void StagePanel::AssignFramebuffer(std::shared_ptr<Framebuffer> imGuiFramebuffer)
+{
+	m_ImGuiFramebuffer = imGuiFramebuffer;
+}
+
 void StagePanel::ProcessInput()
 {
 	for (EventButton button : m_ButtonState)
@@ -24,11 +29,12 @@ void StagePanel::ProcessInput()
 	emptyQueue();
 }
 
-void StagePanel::Render(unsigned int renderResultTexId)
+void StagePanel::Render()
 {
 	ImGui::Begin("StageView");
 
 	ImVec2 currentWindowSize = ImGui::GetContentRegionAvail();
+	unsigned int renderResultTexId = m_ImGuiFramebuffer->GetTexId();
 	if (renderResultTexId != 0)
 		ImGui::Image((ImTextureID)(intptr_t)renderResultTexId, currentWindowSize, ImVec2(0, 1), ImVec2(1, 0));
 
