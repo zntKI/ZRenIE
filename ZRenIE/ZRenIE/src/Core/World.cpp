@@ -2,7 +2,8 @@
 
 #include "Traits/TModel.hpp"
 
-World::World()
+World::World(const nlohmann::json& worldData)
+	: Character(worldData)
 {
 }
 

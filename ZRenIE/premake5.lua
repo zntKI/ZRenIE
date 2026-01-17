@@ -43,7 +43,10 @@ project "ZRenIE"
 
         -- ImGUI
         "vendor/imguiPremake",
-        "vendor/imguiPremake/backends"
+        "vendor/imguiPremake/backends",
+
+        -- nlohmann
+        "vendor/nlohmann"
     }
     
     links

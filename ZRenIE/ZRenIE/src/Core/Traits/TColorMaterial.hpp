@@ -5,6 +5,8 @@
 
 #include <glm/glm.hpp>
 
+#include <nlohmann/json.hpp>
+
 #include <memory>
 
 class TColorMaterial : public TMaterial
@@ -15,7 +17,7 @@ private:
 	glm::vec3 m_Color;
 
 public:
-	TColorMaterial(const glm::vec3& color = glm::vec3(1.f, 0.f, 1.f));
+	TColorMaterial(const nlohmann::json& colorData);
 
 	void Bind(const glm::mat4& mvpMatrix) override;
 };

@@ -17,7 +17,7 @@ uint32_t TextureFromFile(const char* path, const std::string& directory, bool ga
 class TModel : public Trait
 {
 public:
-	TModel(const char* path);
+	TModel(const std::string& modelFilePath);
 	void Draw(const glm::mat4& mvpMatrix);
 
 	std::vector<std::shared_ptr<Mesh>> m_Meshes;
@@ -25,7 +25,7 @@ public:
 private:
 	std::string m_Directory;
 
-	void loadModel(std::string path);
+	void loadModel(const std::string& path);
 	void processNode(aiNode* node, const aiScene* scene);
 	std::shared_ptr<Mesh> processMesh(aiMesh* mesh, const aiScene* scene);
 };

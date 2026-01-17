@@ -17,9 +17,9 @@ GLFWwindow* Window::GetWindowPtr() const
 	return m_Window;
 }
 
-bool Window::Initialize(const WindowConfig& windowConfig)
+bool Window::Initialize(const nlohmann::json& windowConfigData)
 {
-	if (!glfwInitialize(windowConfig)) return false;
+	if (!glfwInitialize(windowConfigData)) return false;
 	if (!gladInitialize()) return false;
 }
 
@@ -52,18 +52,19 @@ void Window::OnNotify(Event event)
 	}
 }
 
-bool Window::glfwInitialize(const WindowConfig& windowConfig)
+bool Window::glfwInitialize(const nlohmann::json& windowConfigData)
 {
 	glfwSetErrorCallback(error_callback);
 
 	if (!glfwInit())
 		return false;
 
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, windowConfig.glfw_CONTEXT_VERSION_MAJOR);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, windowConfig.glfw_CONTEXT_VERSION_MINOR);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, windowConfigData["glfwContextVersionMajor"]);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, windowConfigData["glfwContextVersionMinor"]);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	m_Window = glfwCreateWindow(windowConfig.WINDOW_WIDTH, windowConfig.WINDOW_HEIGHT, "Window", NULL, NULL);
+	m_Window = glfwCreateWindow(windowConfigData["windowWidth"],
+		windowConfigData["windowHeight"], "Window", NULL, NULL);
 	if (!m_Window)
 	{
 		std::cout << "Error: Window creation failed. Terminating program.\n";
@@ -73,6 +74,7 @@ bool Window::glfwInitialize(const WindowConfig& windowConfig)
 
 	return true;
 }
+
 bool Window::gladInitialize()
 {
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))

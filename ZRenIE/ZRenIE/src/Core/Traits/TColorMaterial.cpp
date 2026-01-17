@@ -4,9 +4,10 @@
 
 std::unique_ptr<Shader> TColorMaterial::m_Shader = nullptr;
 
-TColorMaterial::TColorMaterial(const glm::vec3& color)
-	: m_Color(color)
+TColorMaterial::TColorMaterial(const nlohmann::json& colorData)
 {
+	m_Color = glm::vec3(colorData["r"], colorData["g"], colorData["b"]);
+
 	if (!m_Shader) // Lazy init to avoid creation before gl context exists
 		m_Shader = std::make_unique<Shader>("src/Shaders/Color/colorVS.glsl", "src/Shaders/Color/colorFS.glsl");
 

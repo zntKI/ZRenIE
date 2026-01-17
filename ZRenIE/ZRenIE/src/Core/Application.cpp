@@ -5,6 +5,9 @@
 
 #include "Platform.hpp"
 
+#include <nlohmann/json.hpp>
+
+#include <fstream>
 #include <iostream>
 
 // TODO: Implement logging system
@@ -23,8 +26,8 @@ unsigned int Application::GetScreenHeight()
 	return s_ScreenHeight;
 }
 
-Application::Application(float target_update_rate)
-	: TARGET_UPDATE_RATE(target_update_rate), m_Window(std::make_shared<Window>())
+Application::Application()
+	: m_Window(std::make_shared<Window>())
 {
 }
 
@@ -32,35 +35,59 @@ Application::~Application()
 {
 }
 
-bool Application::Initialize(const WindowConfig& windowConfig)
+void Application::Start(const std::string& configFilePath)
 {
-	// Initialize FileSystem here? (if implemented)
-	if (!m_Window->Initialize(windowConfig)) return false;
+	std::ifstream file(configFilePath);
+	if (!file.fail())
+	{
+		nlohmann::json data = nlohmann::json::parse(file);
 
-	s_ScreenWidth = windowConfig.WINDOW_WIDTH;
-	s_ScreenHeight = windowConfig.WINDOW_HEIGHT;
+#pragma region WindowConfig
 
-	m_InputManager.SetCallbacks(m_Window->GetWindowPtr());
+		nlohmann::json windowConfigData = data["windowConfig"];
+		if (!m_Window->Initialize(windowConfigData)) return;
 
-	m_UIContext.InitUIContext(m_Window);
+		s_ScreenWidth = windowConfigData["windowWidth"];
+		s_ScreenHeight = windowConfigData["windowHeight"];
 
-	m_Stage = std::make_unique<Stage>(
-		StageConfig
-		{
-			RendererConfig
+#pragma endregion
+
+#pragma region ApplicationConfig
+
+		nlohmann::json applicationConfigData = data["applicationConfig"];
+		targetUpdateRate = applicationConfigData["gameLoopTargetUpdateRate"];
+
+#pragma endregion
+
+		m_InputManager.SetCallbacks(m_Window->GetWindowPtr());
+
+		m_UIContext.InitUIContext(m_Window);
+
+#pragma region StageConfig
+
+		nlohmann::json stageConfigData = data["stageConfig"];
+		m_Stage = std::make_unique<Stage>(
+			StageConfig
 			{
+				stageConfigData["worldConfig"],
+				RendererConfig
+				{
 				/* m_WorldCamera */ nullptr,
-				/* shouldRenderToFramebuffer */ true,
+				/* shouldRenderToFramebuffer */ stageConfigData["renderConfig"]["shouldRenderToFramebuffer"],
+				}
 			}
-		}
-	);
+		);
 
-	PostInitialize();
+#pragma endregion
 
-	return true;
+		PostInitialize();
+
+
+		Run();
+	}
 }
 
-bool Application::PostInitialize()
+void Application::PostInitialize()
 {
 	m_InputManager.AddObserver(std::dynamic_pointer_cast<Observer>(m_Window));
 	m_InputManager.AddObserver(std::dynamic_pointer_cast<Observer>(m_Stage->GetCameraPtr()));
@@ -69,8 +96,6 @@ bool Application::PostInitialize()
 		m_Stage->GetRendererPtr()->GetImGuiFramebuffer())
 	);
 	m_UIContext.AddObserverToStagePanel(std::dynamic_pointer_cast<Observer>(m_Stage->GetCameraPtr()));
-
-	return true;
 }
 
 void Application::Run()
@@ -89,14 +114,14 @@ void Application::Run()
 		glfwPollEvents();
 
 		// update
-		if (lag >= TARGET_UPDATE_RATE)
+		if (lag >= targetUpdateRate)
 		{
 			// TODO: delegate input events queue to World?
 			m_InputManager.ProcessInput();
 			m_UIContext.ProcessInput();
 
 			update();
-			lag -= TARGET_UPDATE_RATE;
+			lag -= targetUpdateRate;
 		}
 
 		// render

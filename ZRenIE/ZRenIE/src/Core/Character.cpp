@@ -1,5 +1,9 @@
 #include "Character.hpp"
 
+#include "Traits/TModel.hpp"
+#include "Traits/TColorMaterial.hpp"
+#include "Traits/TTextureMaterial.hpp"
+
 #include "Renderer.hpp"
 
 void Character::updateChildren()
@@ -18,8 +22,41 @@ void Character::renderChildren(std::shared_ptr<Renderer> renderer)
 	}
 }
 
-Character::Character()
+Character::Character(const nlohmann::json& characterData)
+	: identifier(characterData["identifier"]),
+	m_TransformTrait(std::make_shared<TTransform>(characterData["transform"]))
 {
+	// Create and add all traits
+	if (characterData.contains("modelFilePath"))
+	{
+		std::shared_ptr<TModel> model = std::make_shared<TModel>(characterData["modelFilePath"]);
+		AddTrait(model);
+
+		if (characterData.contains("material"))
+		{
+			nlohmann::json materialData = characterData["material"];
+
+			std::shared_ptr<TMaterial> material;
+			if (materialData["type"] == "TTextureMaterial")
+				material = std::make_shared<TTextureMaterial>(materialData["textureFilePath"]);
+			else if (materialData["type"] == "TColorMaterial")
+				material = std::make_shared<TColorMaterial>(materialData["color"]);
+
+			AddTrait(material);
+
+			for (auto& mesh : model->m_Meshes)
+			{
+				mesh->m_Material = material;
+			}
+		}
+	}
+
+	// Repeat process for all children
+	for (auto& childCharacterData : characterData["children"])
+	{
+		std::shared_ptr<Character> character = std::make_shared<Character>(childCharacterData);
+		AddChild(character);
+	}
 }
 
 Character::~Character()

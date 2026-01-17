@@ -7,9 +7,9 @@
 
 #include <memory>
 
-TModel::TModel(const char* path)
+TModel::TModel(const std::string& modelFilePath)
 {
-	loadModel(path);
+	loadModel(modelFilePath);
 }
 
 void TModel::Draw(const glm::mat4& mvpMatrix)
@@ -20,7 +20,7 @@ void TModel::Draw(const glm::mat4& mvpMatrix)
 	}
 }
 
-void TModel::loadModel(std::string path)
+void TModel::loadModel(const std::string& path)
 {
 	Assimp::Importer importer;
 	// Read all the data into the aiScene

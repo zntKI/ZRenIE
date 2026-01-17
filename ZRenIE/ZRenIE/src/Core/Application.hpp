@@ -32,7 +32,7 @@ public:
 	 * @param target_update_rate The target update rate in seconds.
 	 *		Defaults to 1/60th of a second (60 updates per second).
 	 */
-	Application(float target_update_rate = 1.f / 60.f);
+	Application();
 	/**
 	 * @brief Destructor for the Application class.
 	 */
@@ -46,8 +46,8 @@ public:
 	 * @param windowConfig Configuration struct for the window.
 	 * @return True if initialization was successful, false otherwise.
 	 */
-	bool Initialize(const WindowConfig& windowConfig);
-	bool PostInitialize();
+	void Start(const std::string& configFilePath);
+	void PostInitialize();
 
 	/**
 	 * @brief Runs the main application loop.
@@ -84,7 +84,7 @@ private:
 
 	std::unique_ptr<Stage> m_Stage;
 
-	const float TARGET_UPDATE_RATE = 1.f / 60.f; // 60 updates per second
+	float targetUpdateRate;
 
 	float m_DeltaTime = 0.f;
 	float m_LastFrame = 0.f;

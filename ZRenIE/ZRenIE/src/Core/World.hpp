@@ -13,7 +13,7 @@
 class World : public Character
 {
 public:
-	World();
+	World(const nlohmann::json& worldData);
 	~World();
 
 	void Update() override;

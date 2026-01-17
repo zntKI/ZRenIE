@@ -3,6 +3,8 @@
 #include "Traits/Trait.hpp"
 #include "Traits/TTransform.hpp"
 
+#include <nlohmann/json.hpp>
+
 #include <string>
 #include <map>
 #include <vector>
@@ -14,15 +16,18 @@ class Character : public std::enable_shared_from_this<Character>
 {
 	friend class Renderer;
 
+private:
+	std::string identifier;
+
 protected:
 	std::weak_ptr<Character> m_Parent;
 	std::vector<std::shared_ptr<Character>> m_Children;
 
-	TTransform m_TransformTrait;
+	std::shared_ptr<TTransform> m_TransformTrait;
 	std::vector<std::shared_ptr<Trait>> m_Traits;
 
 public:
-	Character();
+	Character(const nlohmann::json& characterData);
 	~Character();
 
 	virtual void Update();
