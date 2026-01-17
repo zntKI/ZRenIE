@@ -24,7 +24,8 @@ void Stage::initialize(const nlohmann::json& worldConfigData)
 	for (auto& characterData : worldConfigData["characters"])
 	{
 		std::shared_ptr<Character> character = std::make_shared<Character>(characterData);
-		m_World->AddChild(character);
+		m_World->RegisterChild(character);
+		character->Initialize(characterData);
 	}
 }
 

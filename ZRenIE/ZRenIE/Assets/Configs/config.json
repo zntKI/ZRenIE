@@ -88,7 +88,34 @@
                                     "b": 0
                                 }
                             },
-                            "children": []
+                            "children": [
+                                {
+                                    "identifier": "Cube3",
+                                    "transform": {
+                                        "position": {
+                                            "x": 0,
+                                            "y": 0,
+                                            "z": -5
+                                        },
+                                        "rotation": {
+                                            "x": 0,
+                                            "y": 0,
+                                            "z": 0
+                                        },
+                                        "scale": {
+                                            "x": 1,
+                                            "y": 1,
+                                            "z": 1
+                                        }
+                                    },
+                                    "modelFilePath": "Assets/Models/Basic/cube.obj",
+                                    "material": {
+                                        "type": "TTextureMaterial",
+                                        "textureFilePath": "Assets/Textures/container.jpg"
+                                    },
+                                    "children": []
+                                }
+                            ]
                         }
                     ]
                 }

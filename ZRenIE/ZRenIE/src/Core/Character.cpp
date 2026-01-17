@@ -26,6 +26,10 @@ Character::Character(const nlohmann::json& characterData)
 	: identifier(characterData["identifier"]),
 	m_TransformTrait(std::make_shared<TTransform>(characterData["transform"]))
 {
+}
+
+void Character::Initialize(const nlohmann::json& characterData)
+{
 	// Create and add all traits
 	if (characterData.contains("modelFilePath"))
 	{
@@ -55,8 +59,17 @@ Character::Character(const nlohmann::json& characterData)
 	for (auto& childCharacterData : characterData["children"])
 	{
 		std::shared_ptr<Character> character = std::make_shared<Character>(childCharacterData);
-		AddChild(character);
+		RegisterChild(character);
+		character->Initialize(childCharacterData);
 	}
+}
+
+void Character::RegisterChild(const std::shared_ptr<Character>& child)
+{
+	m_Children.push_back(child);
+	child->m_Parent = weak_from_this();
+
+	child->m_TransformTrait->SetGlobalTransformProperties(m_TransformTrait->GetGlobalTransformProperties());
 }
 
 Character::~Character()
@@ -84,6 +97,8 @@ void Character::AddChild(const std::shared_ptr<Character>& child)
 {
 	m_Children.push_back(child);
 	child->m_Parent = weak_from_this();
+
+
 }
 
 void Character::AddTrait(const std::shared_ptr<Trait>& newTrait)

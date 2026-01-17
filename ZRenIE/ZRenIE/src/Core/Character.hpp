@@ -28,6 +28,9 @@ protected:
 
 public:
 	Character(const nlohmann::json& characterData);
+	void Initialize(const nlohmann::json& characterData);
+	void RegisterChild(const std::shared_ptr<Character>& child);
+
 	~Character();
 
 	virtual void Update();
