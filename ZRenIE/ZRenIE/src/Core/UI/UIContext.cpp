@@ -77,14 +77,11 @@ void UIContext::PreRenderUI()
 	ImGui::End();
 }
 
-void UIContext::RenderStagePanel()
+void UIContext::RenderUI()
 {
 	m_StagePanel->Render();
-}
-
-void UIContext::RenderHierarchyPanel()
-{
-	m_HierarchyPanel->Render();
+	std::weak_ptr<Character> charForTraits = m_HierarchyPanel->Render();
+	m_TraitsPanel->Render(charForTraits);
 }
 
 void UIContext::PostRenderUI()

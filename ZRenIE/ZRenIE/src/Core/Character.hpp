@@ -45,6 +45,8 @@ public:
 
 	void AddTrait(const std::shared_ptr<Trait>& newTrait);
 
+	void UpdateLocalTransform(const TransformProperties& newLocalTransform);
+
 	const std::string GetIdCopy() const;
 	const std::string& GetId() const;
 

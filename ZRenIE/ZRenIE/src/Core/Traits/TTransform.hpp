@@ -23,6 +23,16 @@ struct TransformProperties
 		Scale = glm::vec3(scaleData["x"], scaleData["y"], scaleData["z"]);
 	}
 
+	TransformProperties()
+		: Position(0.0f), Rotation(0.0f), Scale(1.0f)
+	{
+	}
+
+	TransformProperties(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& scl)
+		: Position(pos), Rotation(rot), Scale(scl)
+	{
+	}
+
 	glm::mat4 GetTransformMatrix() const
 	{
 		glm::mat4 matrix = glm::mat4(1.f);
@@ -44,7 +54,7 @@ struct TransformProperties
 	{
 		Position += rhs.Position;
 		Rotation += rhs.Rotation;
-		Scale *= rhs.Scale;
+		Scale += rhs.Scale;
 		return *this;
 	}
 
@@ -52,7 +62,7 @@ struct TransformProperties
 	{
 		Position -= rhs.Position;
 		Rotation -= rhs.Rotation;
-		Scale /= rhs.Scale;
+		Scale -= rhs.Scale;
 		return *this;
 	}
 };
@@ -74,16 +84,21 @@ class TTransform : public Trait
 private:
 	TransformProperties m_Local;
 
-	TransformProperties m_Global;
+	glm::mat4 m_LocalMatrix;
+	glm::mat4 m_WorldMatrix;
 
 public:
 	TTransform(const nlohmann::json& transformData);
 
-	glm::mat4 GetModelMatrix() const;
+	glm::mat4 CalculateLocalMatrix(const glm::mat4& parentWorldMatrix);
+	glm::mat4 CalculateWorldMatrix(const glm::mat4& parentWorldMatrix);
 
-	const TransformProperties& GetGlobalTransformProperties() const;
-	TransformProperties GetGlobalTransformPropertiesCopy() const;
+	void UpdateLocalTransform(const TransformProperties& newLocalTransform);
 
-	void SetGlobalTransformProperties(const TransformProperties& parent_GlobalTransformProps);
-	void SetLocalTransformProperties(const TransformProperties& localTransformProps);
+	glm::mat4 GetWorldMatrix() const;
+
+	TransformProperties GetLocalTransformPropertiesCopy() const;
+
+private:
+	TransformProperties fromMatrix(const glm::mat4& m);
 };

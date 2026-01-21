@@ -18,6 +18,7 @@ void World::Update()
 
 void World::Render(std::shared_ptr<Renderer> renderer)
 {
+	m_TransformTrait->CalculateWorldMatrix(glm::mat4(1.f));
 	renderChildren(renderer);
 }
 

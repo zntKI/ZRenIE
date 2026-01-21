@@ -141,8 +141,7 @@ void Application::render()
 {
 	m_UIContext.PreRenderUI();
 
-	m_UIContext.RenderStagePanel();
-	m_UIContext.RenderHierarchyPanel();
+	m_UIContext.RenderUI();
 
 	// TODO: Use stateProgress by asking the World to interpolate between states
 	m_Stage->Render();

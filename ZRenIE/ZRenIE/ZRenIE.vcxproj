@@ -132,6 +132,7 @@
     <ClInclude Include="src\Core\World.hpp" />
     <ClInclude Include="src\Utility\Shader.hpp" />
     <ClInclude Include="src\Utility\Utils.hpp" />
+    <ClInclude Include="src\Core\UI\Panels\TraitsPanel.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\vendor\glad\src\glad.c" />
@@ -168,6 +169,7 @@
     <ClCompile Include="src\Utility\Utils.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\stb_image.cpp" />
+    <ClCompile Include="src\Core\UI\Panels\TraitsPanel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\vendor\glfwPremake\glfwPremake.vcxproj">

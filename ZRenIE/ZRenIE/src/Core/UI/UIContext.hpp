@@ -2,6 +2,7 @@
 
 #include "Panels/StagePanel.hpp"
 #include "Panels/HierarchyPanel.hpp"
+#include "Panels/TraitsPanel.hpp"
 
 #include "../Platform.hpp"
 
@@ -18,6 +19,7 @@ private:
 
 	std::unique_ptr<StagePanel> m_StagePanel;
 	std::unique_ptr<HierarchyPanel> m_HierarchyPanel;
+	std::unique_ptr<TraitsPanel> m_TraitsPanel;
 
 public:
 	UIContext();
@@ -29,8 +31,7 @@ public:
 
 	void PreRenderUI();
 
-	void RenderStagePanel();
-	void RenderHierarchyPanel();
+	void RenderUI();
 
 	void PostRenderUI();
 

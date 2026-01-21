@@ -2,13 +2,20 @@
 
 #include <imgui.h>
 
-void HierarchyPanel::Render()
+std::weak_ptr<Character> HierarchyPanel::Render()
 {
 	ImGui::Begin("Characters");
 
 	checkForInput();
 
-	bool isTreeOpen = ImGui::TreeNodeEx(m_World->m_Name.c_str(), ImGuiTreeNodeFlags_OpenOnArrow);
+	ImGuiTreeNodeFlags rootFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick;
+	if (!m_SelectedCharacter.expired() && m_SelectedCharacter.lock() == m_World)
+		rootFlags |= ImGuiTreeNodeFlags_Selected;
+
+	bool isTreeOpen = ImGui::TreeNodeEx(m_World->m_Name.c_str(), rootFlags);
+
+	if (ImGui::IsItemClicked(ImGuiMouseButton_Left) && !ImGui::IsItemToggledOpen())
+		m_SelectedCharacter = m_World;
 
 	if (ImGui::BeginDragDropTarget())
 	{
@@ -27,14 +34,23 @@ void HierarchyPanel::Render()
 	}
 
 	ImGui::End();
+
+	return m_SelectedCharacter;
 }
 
-void HierarchyPanel::DisplayChildren(const std::map<std::string, std::shared_ptr<Character>>& children) const
+void HierarchyPanel::DisplayChildren(const std::map<std::string, std::shared_ptr<Character>>& children)
 {
 	ImGui::Indent(5.f);
 	for (auto& child : children)
 	{
-		bool isTreeOpen = ImGui::TreeNodeEx(child.second->m_Name.c_str(), ImGuiTreeNodeFlags_OpenOnArrow);
+		ImGuiTreeNodeFlags rootFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick;
+		if (!m_SelectedCharacter.expired() && m_SelectedCharacter.lock() == child.second)
+			rootFlags |= ImGuiTreeNodeFlags_Selected;
+
+		bool isTreeOpen = ImGui::TreeNodeEx(child.second->m_Name.c_str(), rootFlags);
+
+		if (ImGui::IsItemClicked(ImGuiMouseButton_Left) && !ImGui::IsItemToggledOpen())
+			m_SelectedCharacter = child.second;
 
 		if (ImGui::BeginDragDropSource())
 		{

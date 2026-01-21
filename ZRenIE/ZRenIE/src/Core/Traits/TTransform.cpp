@@ -1,35 +1,67 @@
 #include "TTransform.hpp"
 
+#define GLM_ENABLE_EXPERIMENTAL
 #include <glm/ext/matrix_transform.hpp>
+#include <glm/gtx/matrix_decompose.hpp>
+#include <glm/gtx/euler_angles.hpp>
+#include <glm/gtc/quaternion.hpp>
 
 TTransform::TTransform(const nlohmann::json& transformData)
-	: m_Local(transformData), m_Global(m_Local)
+	: m_Local(transformData),
+	m_LocalMatrix(m_Local.GetTransformMatrix()),
+	m_WorldMatrix(CalculateWorldMatrix(glm::mat4(1.f)))
 {
 }
 
-glm::mat4 TTransform::GetModelMatrix() const
+glm::mat4 TTransform::CalculateLocalMatrix(const glm::mat4& parentWorldMatrix)
 {
-	return m_Global.GetTransformMatrix();
+	m_LocalMatrix = glm::inverse(parentWorldMatrix) * m_WorldMatrix;
+	m_Local = fromMatrix(m_LocalMatrix);
+
+	return m_LocalMatrix;
 }
 
-const TransformProperties& TTransform::GetGlobalTransformProperties() const
+glm::mat4 TTransform::CalculateWorldMatrix(const glm::mat4& parentWorldMatrix)
 {
-	return m_Global;
+	m_WorldMatrix = parentWorldMatrix * m_LocalMatrix;
+	return m_WorldMatrix;
 }
 
-TransformProperties TTransform::GetGlobalTransformPropertiesCopy() const
+void TTransform::UpdateLocalTransform(const TransformProperties& newLocalTransform)
 {
-	return m_Global;
+	m_Local = newLocalTransform;
+	m_LocalMatrix = m_Local.GetTransformMatrix();
 }
 
-void TTransform::SetGlobalTransformProperties(const TransformProperties& parent_GlobalTransformProps)
+glm::mat4 TTransform::GetWorldMatrix() const
 {
-	m_Global = parent_GlobalTransformProps + m_Local;
+	return m_WorldMatrix;
 }
 
-void TTransform::SetLocalTransformProperties(const TransformProperties& localTransformProps)
+TransformProperties TTransform::GetLocalTransformPropertiesCopy() const
 {
-	m_Local = localTransformProps;
+	return m_Local;
+}
+
+TransformProperties TTransform::fromMatrix(const glm::mat4& m)
+{
+	// Decompose: m = T * R * S
+	glm::vec3 scale, translation, skew;
+	glm::vec4 perspective;
+	glm::quat orientation;
+	glm::mat4 M = m;
+
+	if (!glm::decompose(M, scale, orientation, translation, skew, perspective))
+	{
+		// Fallback to identity if decomposition fails
+		return TransformProperties{};
+	}
+
+	// Convert rotation quaternion to Euler angles in degrees
+	glm::vec3 eulerRadians = glm::eulerAngles(glm::normalize(orientation)); // XYZ order
+	glm::vec3 eulerDegrees = glm::degrees(eulerRadians);
+
+	return TransformProperties(translation, eulerDegrees, scale);
 }
 
 //void TTransform::Update()

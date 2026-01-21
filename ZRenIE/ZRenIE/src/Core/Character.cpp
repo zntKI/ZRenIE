@@ -58,7 +58,7 @@ void Character::RegisterChild(std::shared_ptr<Character> child)
 	m_Children.emplace(child->GetId(), child);
 	child->m_Parent = weak_from_this();
 
-	child->m_TransformTrait->SetGlobalTransformProperties(m_TransformTrait->GetGlobalTransformProperties());
+	child->m_TransformTrait->CalculateWorldMatrix(m_TransformTrait->GetWorldMatrix());
 }
 
 Character::~Character()
@@ -118,15 +118,17 @@ void Character::AddChild(std::shared_ptr<Character> child)
 
 	// adjust the local position of the child to be:
 	// child_global - this_global
-	TransformProperties result = 
-		child->m_TransformTrait->GetGlobalTransformPropertiesCopy()
-		- m_TransformTrait->GetGlobalTransformPropertiesCopy();
-	child->m_TransformTrait->SetLocalTransformProperties(result);
+	child->m_TransformTrait->CalculateLocalMatrix(m_TransformTrait->GetWorldMatrix());
 }
 
 void Character::AddTrait(const std::shared_ptr<Trait>& newTrait)
 {
 	m_Traits.push_back(newTrait);
+}
+
+void Character::UpdateLocalTransform(const TransformProperties& newLocalTransform)
+{
+	m_TransformTrait->UpdateLocalTransform(newLocalTransform);
 }
 
 const std::string Character::GetIdCopy() const
