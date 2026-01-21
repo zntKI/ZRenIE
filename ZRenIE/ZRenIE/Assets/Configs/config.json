@@ -14,7 +14,8 @@
         },
         "worldConfig": {
             "worldCharacter": {
-                "identifier": "World",
+                "id": "1be4bf77-b60d-4c56-842e-05a655dc4107",
+                "name": "World",
                 "transform": {
                     "position": {
                         "x": 0,
@@ -36,7 +37,8 @@
             },
             "characters": [
                 {
-                    "identifier": "Cube1",
+                    "id": "65bfab14-018e-4bd5-9437-53f703b3794b",
+                    "name": "Cube1",
                     "transform": {
                         "position": {
                             "x": 0,
@@ -49,9 +51,9 @@
                             "z": 0
                         },
                         "scale": {
-                            "x": 1,
-                            "y": 1,
-                            "z": 1
+                            "x": 0.66,
+                            "y": 0.66,
+                            "z": 0.66
                         }
                     },
                     "modelFilePath": "Assets/Models/Basic/cube.obj",
@@ -61,7 +63,8 @@
                     },
                     "children": [
                         {
-                            "identifier": "Cube2",
+                            "id": "d3d7cb7d-6370-403a-8949-de8e4bcc2722",
+                            "name": "Cube2",
                             "transform": {
                                 "position": {
                                     "x": -5,
@@ -74,9 +77,9 @@
                                     "z": 0
                                 },
                                 "scale": {
-                                    "x": 1,
-                                    "y": 1,
-                                    "z": 1
+                                    "x": 1.51,
+                                    "y": 1.51,
+                                    "z": 1.51
                                 }
                             },
                             "modelFilePath": "Assets/Models/Basic/cube.obj",
@@ -90,7 +93,8 @@
                             },
                             "children": [
                                 {
-                                    "identifier": "Cube3",
+                                    "id": "46e3a9d7-5ddc-49a9-804f-a4479ed4d2a7",
+                                    "name": "Cube3",
                                     "transform": {
                                         "position": {
                                             "x": 0,

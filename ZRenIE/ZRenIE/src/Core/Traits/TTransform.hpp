@@ -47,11 +47,25 @@ struct TransformProperties
 		Scale *= rhs.Scale;
 		return *this;
 	}
+
+	TransformProperties& operator-=(const TransformProperties& rhs)
+	{
+		Position -= rhs.Position;
+		Rotation -= rhs.Rotation;
+		Scale /= rhs.Scale;
+		return *this;
+	}
 };
 
 inline TransformProperties operator+(TransformProperties lhs, const TransformProperties& rhs)
 {
 	lhs += rhs;
+	return lhs;
+}
+
+inline TransformProperties operator-(TransformProperties lhs, const TransformProperties& rhs)
+{
+	lhs -= rhs;
 	return lhs;
 }
 
@@ -68,6 +82,8 @@ public:
 	glm::mat4 GetModelMatrix() const;
 
 	const TransformProperties& GetGlobalTransformProperties() const;
+	TransformProperties GetGlobalTransformPropertiesCopy() const;
 
 	void SetGlobalTransformProperties(const TransformProperties& parent_GlobalTransformProps);
+	void SetLocalTransformProperties(const TransformProperties& localTransformProps);
 };

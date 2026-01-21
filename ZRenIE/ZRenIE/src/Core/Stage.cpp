@@ -20,12 +20,14 @@ Stage::Stage(const StageConfig& stageConfig)
 void Stage::initialize(const nlohmann::json& worldConfigData)
 {
 	m_World = std::make_shared<World>(worldConfigData["worldCharacter"]);
+	//m_World->m_Root = m_World;
+	m_World->m_Characters.emplace(m_World->GetIdCopy(), m_World);
 
 	for (auto& characterData : worldConfigData["characters"])
 	{
 		std::shared_ptr<Character> character = std::make_shared<Character>(characterData);
 		m_World->RegisterChild(character);
-		character->Initialize(characterData);
+		character->Initialize(characterData, m_World);
 	}
 }
 
@@ -55,4 +57,9 @@ std::shared_ptr<FlyCamera> Stage::GetCameraPtr() const
 std::shared_ptr<Renderer> Stage::GetRendererPtr() const
 {
 	return m_Renderer;
+}
+
+std::shared_ptr<World> Stage::GetWorldPtr() const
+{
+	return m_World;
 }

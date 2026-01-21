@@ -96,6 +96,8 @@ void Application::PostInitialize()
 		m_Stage->GetRendererPtr()->GetImGuiFramebuffer())
 	);
 	m_UIContext.AddObserverToStagePanel(std::dynamic_pointer_cast<Observer>(m_Stage->GetCameraPtr()));
+
+	m_UIContext.AssignWorldToHierarchyPanel(m_Stage->GetWorldPtr());
 }
 
 void Application::Run()

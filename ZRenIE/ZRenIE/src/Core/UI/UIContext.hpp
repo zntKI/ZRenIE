@@ -7,6 +7,8 @@
 
 #include "../Window.hpp"
 
+#include "../World.hpp"
+
 class UIContext
 {
 private:
@@ -15,7 +17,7 @@ private:
 	std::shared_ptr<Window> m_GLFWWindow;
 
 	std::unique_ptr<StagePanel> m_StagePanel;
-	HierarchyPanel m_HierarchyPanel;
+	std::unique_ptr<HierarchyPanel> m_HierarchyPanel;
 
 public:
 	UIContext();
@@ -35,6 +37,7 @@ public:
 	void ProcessInput();
 
 	void AddObserverToStagePanel(std::shared_ptr<Observer> observer);
+	void AssignWorldToHierarchyPanel(std::shared_ptr<World> worldPtr);
 
 private:
 	/// <summary>

@@ -37,6 +37,7 @@ public:
 
 	std::shared_ptr<FlyCamera> GetCameraPtr() const;
 	std::shared_ptr<Renderer> GetRendererPtr() const;
+	std::shared_ptr<World> GetWorldPtr() const;
 
 private:
 	void initialize(const nlohmann::json& worldConfigData);

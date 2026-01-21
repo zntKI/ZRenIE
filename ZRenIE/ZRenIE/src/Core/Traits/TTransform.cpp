@@ -17,9 +17,19 @@ const TransformProperties& TTransform::GetGlobalTransformProperties() const
 	return m_Global;
 }
 
+TransformProperties TTransform::GetGlobalTransformPropertiesCopy() const
+{
+	return m_Global;
+}
+
 void TTransform::SetGlobalTransformProperties(const TransformProperties& parent_GlobalTransformProps)
 {
 	m_Global = parent_GlobalTransformProps + m_Local;
+}
+
+void TTransform::SetLocalTransformProperties(const TransformProperties& localTransformProps)
+{
+	m_Local = localTransformProps;
 }
 
 //void TTransform::Update()
