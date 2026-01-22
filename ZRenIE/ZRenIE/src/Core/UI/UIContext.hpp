@@ -2,7 +2,7 @@
 
 #include "Panels/StagePanel.hpp"
 #include "Panels/HierarchyPanel.hpp"
-#include "Panels/TraitsPanel.hpp"
+#include "Panels/Traits/TraitsPanel.hpp"
 
 #include "../Platform.hpp"
 

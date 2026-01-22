@@ -2,6 +2,8 @@
 
 #include "Trait.hpp"
 
+#include "../UI/Panels/Traits/TraitsViews/TTransformView.hpp"
+
 #include <nlohmann/json.hpp>
 
 #include <glm/glm.hpp>
@@ -81,11 +83,15 @@ inline TransformProperties operator-(TransformProperties lhs, const TransformPro
 
 class TTransform : public Trait
 {
+	friend class TTransformView;
+
 private:
 	TransformProperties m_Local;
 
 	glm::mat4 m_LocalMatrix;
 	glm::mat4 m_WorldMatrix;
+
+	TTransformView transformView;
 
 public:
 	TTransform(const nlohmann::json& transformData);
@@ -93,11 +99,12 @@ public:
 	glm::mat4 CalculateLocalMatrix(const glm::mat4& parentWorldMatrix);
 	glm::mat4 CalculateWorldMatrix(const glm::mat4& parentWorldMatrix);
 
-	void UpdateLocalTransform(const TransformProperties& newLocalTransform);
+	/// <summary>
+	/// Used to Render the ImGui UI
+	/// </summary>
+	void Render();
 
 	glm::mat4 GetWorldMatrix() const;
-
-	TransformProperties GetLocalTransformPropertiesCopy() const;
 
 private:
 	TransformProperties fromMatrix(const glm::mat4& m);

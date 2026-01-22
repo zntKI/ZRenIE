@@ -126,11 +126,6 @@ void Character::AddTrait(const std::shared_ptr<Trait>& newTrait)
 	m_Traits.push_back(newTrait);
 }
 
-void Character::UpdateLocalTransform(const TransformProperties& newLocalTransform)
-{
-	m_TransformTrait->UpdateLocalTransform(newLocalTransform);
-}
-
 const std::string Character::GetIdCopy() const
 {
 	return ID;

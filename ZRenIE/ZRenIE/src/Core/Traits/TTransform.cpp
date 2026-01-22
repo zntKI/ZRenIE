@@ -27,20 +27,17 @@ glm::mat4 TTransform::CalculateWorldMatrix(const glm::mat4& parentWorldMatrix)
 	return m_WorldMatrix;
 }
 
-void TTransform::UpdateLocalTransform(const TransformProperties& newLocalTransform)
+void TTransform::Render()
 {
-	m_Local = newLocalTransform;
-	m_LocalMatrix = m_Local.GetTransformMatrix();
+	if (transformView.Render(m_Local))
+	{
+		m_LocalMatrix = m_Local.GetTransformMatrix();
+	}
 }
 
 glm::mat4 TTransform::GetWorldMatrix() const
 {
 	return m_WorldMatrix;
-}
-
-TransformProperties TTransform::GetLocalTransformPropertiesCopy() const
-{
-	return m_Local;
 }
 
 TransformProperties TTransform::fromMatrix(const glm::mat4& m)

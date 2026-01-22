@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Panel.hpp"
+#include "../Panel.hpp"
 
-#include "../../Character.hpp"
+#include "../../../Character.hpp"
 
 #include <memory>
 
