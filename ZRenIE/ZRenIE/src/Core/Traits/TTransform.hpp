@@ -102,7 +102,7 @@ public:
 	/// <summary>
 	/// Used to Render the ImGui UI
 	/// </summary>
-	void Render();
+	void Render() override;
 
 	glm::mat4 GetWorldMatrix() const;
 

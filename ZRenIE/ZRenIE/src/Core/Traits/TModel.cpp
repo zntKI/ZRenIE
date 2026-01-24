@@ -20,6 +20,15 @@ void TModel::Draw(const glm::mat4& mvpMatrix)
 	}
 }
 
+void TModel::Render()
+{
+	/*if (modelView.Render(m_ModelName, m_Directory))
+	{
+		m_Meshes.clear();
+		loadModel(m_Directory);
+	}*/
+}
+
 void TModel::loadModel(const std::string& path)
 {
 	Assimp::Importer importer;
@@ -33,6 +42,7 @@ void TModel::loadModel(const std::string& path)
 		return;
 	}
 	m_Directory = path.substr(0, path.find_last_of('/'));
+	m_ModelName = path.substr(path.find_last_of('/') + 1);
 
 	processNode(scene->mRootNode, scene);
 }

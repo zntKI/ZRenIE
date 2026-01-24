@@ -23,3 +23,8 @@ void TColorMaterial::Bind(const glm::mat4& mvpMatrix)
 
 	m_Shader->setVec3("u_Color", m_Color);
 }
+
+void TColorMaterial::Render()
+{
+	colorView.Render(m_Color);
+}

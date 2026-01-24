@@ -22,6 +22,12 @@
     <Filter Include="src\Core\UI\Panels">
       <UniqueIdentifier>{C474F06D-B058-B1C3-19B9-AB1605BC9B45}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Core\UI\Panels\Traits">
+      <UniqueIdentifier>{CA54F504-3617-298F-7FC7-B71BEBC8016D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Core\UI\Panels\Traits\TraitsViews">
+      <UniqueIdentifier>{9E887A76-0A4D-7966-D3B2-A9303F36159C}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Utility">
       <UniqueIdentifier>{70464FB2-DCFB-C7A7-65F0-C17ED1A4BEAB}</UniqueIdentifier>
     </Filter>
@@ -111,6 +117,15 @@
     <ClInclude Include="src\Core\UI\Panels\StagePanel.hpp">
       <Filter>src\Core\UI\Panels</Filter>
     </ClInclude>
+    <ClInclude Include="src\Core\UI\Panels\Traits\TraitsPanel.hpp">
+      <Filter>src\Core\UI\Panels\Traits</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\UI\Panels\Traits\TraitsViews\TModelView.hpp">
+      <Filter>src\Core\UI\Panels\Traits\TraitsViews</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\UI\Panels\Traits\TraitsViews\TTransformView.hpp">
+      <Filter>src\Core\UI\Panels\Traits\TraitsViews</Filter>
+    </ClInclude>
     <ClInclude Include="src\Core\UI\UIContext.hpp">
       <Filter>src\Core\UI</Filter>
     </ClInclude>
@@ -129,8 +144,8 @@
     <ClInclude Include="src\Utility\Utils.hpp">
       <Filter>src\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="src\Core\UI\Panels\Traits\TraitsPanel.hpp" />
-    <ClInclude Include="src\Core\UI\Panels\Traits\TraitsViews\TTransformView.hpp" />
+    <ClInclude Include="src\Core\UI\Panels\Traits\TraitsViews\TColorView.hpp" />
+    <ClInclude Include="src\Core\UI\Panels\Traits\TraitsViews\TTextureView.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\vendor\glad\src\glad.c">
@@ -211,6 +226,15 @@
     <ClCompile Include="src\Core\UI\Panels\StagePanel.cpp">
       <Filter>src\Core\UI\Panels</Filter>
     </ClCompile>
+    <ClCompile Include="src\Core\UI\Panels\Traits\TraitsPanel.cpp">
+      <Filter>src\Core\UI\Panels\Traits</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\UI\Panels\Traits\TraitsViews\TModelView.cpp">
+      <Filter>src\Core\UI\Panels\Traits\TraitsViews</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\UI\Panels\Traits\TraitsViews\TTransformView.cpp">
+      <Filter>src\Core\UI\Panels\Traits\TraitsViews</Filter>
+    </ClCompile>
     <ClCompile Include="src\Core\UI\UIContext.cpp">
       <Filter>src\Core\UI</Filter>
     </ClCompile>
@@ -235,7 +259,7 @@
     <ClCompile Include="src\stb_image.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Core\UI\Panels\Traits\TraitsPanel.cpp" />
-    <ClCompile Include="src\Core\UI\Panels\Traits\TraitsViews\TTransformView.cpp" />
+    <ClCompile Include="src\Core\UI\Panels\Traits\TraitsViews\TColorView.cpp" />
+    <ClCompile Include="src\Core\UI\Panels\Traits\TraitsViews\TTextureView.cpp" />
   </ItemGroup>
 </Project>

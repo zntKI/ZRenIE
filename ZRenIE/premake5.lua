@@ -46,7 +46,10 @@ project "ZRenIE"
         "vendor/imguiPremake/backends",
 
         -- nlohmann
-        "vendor/nlohmann"
+        "vendor/nlohmann",
+
+        -- imfilebrowser
+        "vendor/imfilebrowser"
     }
     
     links

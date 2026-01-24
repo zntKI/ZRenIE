@@ -3,6 +3,8 @@
 #include "TMaterial.hpp"
 #include "../../Utility/Shader.hpp"
 
+#include "../UI/Panels/Traits/TraitsViews/TColorView.hpp"
+
 #include <glm/glm.hpp>
 
 #include <nlohmann/json.hpp>
@@ -16,8 +18,12 @@ private:
 
 	glm::vec3 m_Color;
 
+	TColorView colorView;
+
 public:
 	TColorMaterial(const nlohmann::json& colorData);
 
 	void Bind(const glm::mat4& mvpMatrix) override;
+
+	void Render() override;
 };

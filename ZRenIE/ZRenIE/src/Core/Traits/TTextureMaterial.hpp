@@ -3,6 +3,8 @@
 #include "TMaterial.hpp"
 #include "../../Utility/Shader.hpp"
 
+#include "../UI/Panels/Traits/TraitsViews/TTextureView.hpp"
+
 #include <vector>
 
 struct Texture
@@ -21,10 +23,14 @@ private:
 
 	Texture m_Texture;
 
+	TTextureView textureView;
+
 public:
 	TTextureMaterial(const std::string& texturePath);
 
 	void Bind(const glm::mat4& mvpMatrix) override;
+
+	void Render() override;
 
 private:
 	Texture& textureFromFile(const std::string& path, bool gamma = false);

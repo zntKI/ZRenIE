@@ -16,6 +16,10 @@ void TraitsPanel::Render(std::weak_ptr<Character> charForRenderTraits)
 		{
             character->m_TransformTrait->Render();
 		}
+		for (auto& trait : character->m_Traits)
+		{
+			trait->Render();
+		}
 	}
 
 	ImGui::End();

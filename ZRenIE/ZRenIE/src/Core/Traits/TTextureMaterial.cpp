@@ -24,6 +24,14 @@ void TTextureMaterial::Bind(const glm::mat4& mvpMatrix)
 	glBindTexture(GL_TEXTURE_2D, m_Texture.id);
 }
 
+void TTextureMaterial::Render()
+{
+	if (textureView.Render(m_Texture.id, m_Texture.path))
+	{
+		m_Texture = textureFromFile(m_Texture.path);
+	}
+}
+
 Texture& TTextureMaterial::textureFromFile(const std::string& path, bool gamma)
 {
 	for (auto& textureLoaded : m_TexturesLoaded)
