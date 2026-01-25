@@ -59,7 +59,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>ZR_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\vendor\glfwPremake\include;..\vendor\glad\include;..\vendor\stb_image;..\vendor\glm;..\vendor\assimpPremake\include;..\vendor\assimpPremake\build\include;..\vendor\imguiPremake;..\vendor\imguiPremake\backends;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\vendor\glfwPremake\include;..\vendor\glad\include;..\vendor\stb_image;..\vendor\glm;..\vendor\assimpPremake\include;..\vendor\assimpPremake\build\include;..\vendor\imguiPremake;..\vendor\imguiPremake\backends;..\vendor\nlohmann;..\vendor\imfilebrowser;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -81,7 +81,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>ZR_NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\vendor\glfwPremake\include;..\vendor\glad\include;..\vendor\stb_image;..\vendor\glm;..\vendor\assimpPremake\include;..\vendor\assimpPremake\build\include;..\vendor\imguiPremake;..\vendor\imguiPremake\backends;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\vendor\glfwPremake\include;..\vendor\glad\include;..\vendor\stb_image;..\vendor\glm;..\vendor\assimpPremake\include;..\vendor\assimpPremake\build\include;..\vendor\imguiPremake;..\vendor\imguiPremake\backends;..\vendor\nlohmann;..\vendor\imfilebrowser;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -103,35 +103,40 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Core\Framebuffers\ImGuiFramebuffer.hpp" />
-    <ClInclude Include="src\Core\Framebuffers\Framebuffer.hpp" />
-    <ClInclude Include="src\Core\Events\Sender.hpp" />
-    <ClInclude Include="src\Core\UI\Panels\HierarchyPanel.hpp" />
-    <ClInclude Include="src\Core\UI\Panels\StagePanel.hpp" />
-    <ClInclude Include="src\Core\UI\Panels\Panel.hpp" />
-    <ClInclude Include="src\Core\InputManager.hpp" />
-    <ClInclude Include="src\Core\Platform.hpp" />
+    <ClInclude Include="src\Core\Application.hpp" />
+    <ClInclude Include="src\Core\Character.hpp" />
     <ClInclude Include="src\Core\Events\Event.hpp" />
     <ClInclude Include="src\Core\Events\Observer.hpp" />
-    <ClInclude Include="src\Core\Renderer.hpp" />
-    <ClInclude Include="src\Core\Character.hpp" />
-    <ClInclude Include="src\Core\Application.hpp" />
-    <ClInclude Include="src\Core\Traits\TMaterial.hpp" />
-    <ClInclude Include="src\Core\WindowConfig.hpp" />
+    <ClInclude Include="src\Core\Events\Sender.hpp" />
     <ClInclude Include="src\Core\FlyCamera.hpp" />
-    <ClInclude Include="src\Core\Traits\Mesh.hpp" />
-    <ClInclude Include="src\Core\Traits\TModel.hpp" />
-    <ClInclude Include="src\Utility\Shader.hpp" />
+    <ClInclude Include="src\Core\Framebuffers\Framebuffer.hpp" />
+    <ClInclude Include="src\Core\Framebuffers\ImGuiFramebuffer.hpp" />
+    <ClInclude Include="src\Core\InputManager.hpp" />
+    <ClInclude Include="src\Core\Platform.hpp" />
+    <ClInclude Include="src\Core\Renderer.hpp" />
     <ClInclude Include="src\Core\Stage.hpp" />
     <ClInclude Include="src\Core\StageManager.hpp" />
-    <ClInclude Include="src\Core\World.hpp" />
-    <ClInclude Include="src\Core\Traits\Trait.hpp" />
-    <ClInclude Include="src\Core\Traits\TTransform.hpp" />
+    <ClInclude Include="src\Core\Traits\Mesh.hpp" />
     <ClInclude Include="src\Core\Traits\TColorMaterial.hpp" />
-    <ClInclude Include="src\Utility\Utils.hpp" />
-    <ClInclude Include="src\Core\Window.hpp" />
+    <ClInclude Include="src\Core\Traits\TMaterial.hpp" />
+    <ClInclude Include="src\Core\Traits\TModel.hpp" />
     <ClInclude Include="src\Core\Traits\TTextureMaterial.hpp" />
+    <ClInclude Include="src\Core\Traits\TTransform.hpp" />
+    <ClInclude Include="src\Core\Traits\Trait.hpp" />
+    <ClInclude Include="src\Core\UI\Panels\HierarchyPanel.hpp" />
+    <ClInclude Include="src\Core\UI\Panels\Panel.hpp" />
+    <ClInclude Include="src\Core\UI\Panels\StagePanel.hpp" />
+    <ClInclude Include="src\Core\UI\Panels\Traits\TraitsPanel.hpp" />
+    <ClInclude Include="src\Core\UI\Panels\Traits\TraitsViews\TModelView.hpp" />
+    <ClInclude Include="src\Core\UI\Panels\Traits\TraitsViews\TTransformView.hpp" />
     <ClInclude Include="src\Core\UI\UIContext.hpp" />
+    <ClInclude Include="src\Core\Window.hpp" />
+    <ClInclude Include="src\Core\WindowConfig.hpp" />
+    <ClInclude Include="src\Core\World.hpp" />
+    <ClInclude Include="src\Utility\Shader.hpp" />
+    <ClInclude Include="src\Utility\Utils.hpp" />
+    <ClInclude Include="src\Core\UI\Panels\Traits\TraitsViews\TColorView.hpp" />
+    <ClInclude Include="src\Core\UI\Panels\Traits\TraitsViews\TTextureView.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\vendor\glad\src\glad.c" />
@@ -142,43 +147,42 @@
     <ClCompile Include="..\vendor\imguiPremake\imgui_draw.cpp" />
     <ClCompile Include="..\vendor\imguiPremake\imgui_tables.cpp" />
     <ClCompile Include="..\vendor\imguiPremake\imgui_widgets.cpp" />
-    <ClCompile Include="src\Core\Framebuffers\ImGuiFramebuffer.cpp" />
-    <ClCompile Include="src\Core\Framebuffers\Framebuffer.cpp" />
+    <ClCompile Include="src\Core\Application.cpp" />
+    <ClCompile Include="src\Core\Character.cpp" />
     <ClCompile Include="src\Core\Events\Sender.cpp" />
-    <ClCompile Include="src\Core\UI\Panels\HierarchyPanel.cpp" />
-    <ClCompile Include="src\Core\UI\Panels\StagePanel.cpp" />
+    <ClCompile Include="src\Core\FlyCamera.cpp" />
+    <ClCompile Include="src\Core\Framebuffers\Framebuffer.cpp" />
+    <ClCompile Include="src\Core\Framebuffers\ImGuiFramebuffer.cpp" />
     <ClCompile Include="src\Core\InputManager.cpp" />
     <ClCompile Include="src\Core\Renderer.cpp" />
-    <ClCompile Include="src\Core\Character.cpp" />
-    <ClCompile Include="src\Core\Application.cpp" />
-    <ClCompile Include="src\Core\Traits\Trait.cpp" />
-    <ClCompile Include="src\Program.cpp" />
-    <ClCompile Include="src\Core\FlyCamera.cpp" />
-    <ClCompile Include="src\Core\Traits\Mesh.cpp" />
-    <ClCompile Include="src\Core\Traits\TModel.cpp" />
-    <ClCompile Include="src\Utility\Shader.cpp" />
-    <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\stb_image.cpp" />
     <ClCompile Include="src\Core\Stage.cpp" />
     <ClCompile Include="src\Core\StageManager.cpp" />
-    <ClCompile Include="src\Core\World.cpp" />
-    <ClCompile Include="src\Core\Traits\TTransform.cpp" />
+    <ClCompile Include="src\Core\Traits\Mesh.cpp" />
     <ClCompile Include="src\Core\Traits\TColorMaterial.cpp" />
-    <ClCompile Include="src\Utility\Utils.cpp" />
-    <ClCompile Include="src\Core\Window.cpp" />
+    <ClCompile Include="src\Core\Traits\TModel.cpp" />
     <ClCompile Include="src\Core\Traits\TTextureMaterial.cpp" />
+    <ClCompile Include="src\Core\Traits\TTransform.cpp" />
+    <ClCompile Include="src\Core\Traits\Trait.cpp" />
+    <ClCompile Include="src\Core\UI\Panels\HierarchyPanel.cpp" />
+    <ClCompile Include="src\Core\UI\Panels\StagePanel.cpp" />
+    <ClCompile Include="src\Core\UI\Panels\Traits\TraitsPanel.cpp" />
+    <ClCompile Include="src\Core\UI\Panels\Traits\TraitsViews\TModelView.cpp" />
+    <ClCompile Include="src\Core\UI\Panels\Traits\TraitsViews\TTransformView.cpp" />
     <ClCompile Include="src\Core\UI\UIContext.cpp" />
+    <ClCompile Include="src\Core\Window.cpp" />
+    <ClCompile Include="src\Core\World.cpp" />
+    <ClCompile Include="src\Program.cpp" />
+    <ClCompile Include="src\Utility\Shader.cpp" />
+    <ClCompile Include="src\Utility\Utils.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\stb_image.cpp" />
+    <ClCompile Include="src\Core\UI\Panels\Traits\TraitsViews\TColorView.cpp" />
+    <ClCompile Include="src\Core\UI\Panels\Traits\TraitsViews\TTextureView.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\vendor\glfwPremake\glfwPremake.vcxproj">
       <Project>{FA18DBA3-66CE-5399-EFC2-4D705B774A9D}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="src\Shaders\Color\colorFS.glsl" />
-    <None Include="src\Shaders\Color\colorVS.glsl" />
-    <None Include="src\Shaders\Texture\textureFS.glsl" />
-    <None Include="src\Shaders\Texture\textureVS.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -41,7 +41,7 @@ void Renderer::PreRender()
 
 void Renderer::Render(std::shared_ptr<Character> character)
 {
-	TTransform transformTrait = character->m_TransformTrait;
+	std::shared_ptr<TTransform> transformTrait = character->m_TransformTrait;
 	std::shared_ptr<TModel> modelTrait;
 	for (auto& trait : character->m_Traits)
 	{
@@ -52,7 +52,7 @@ void Renderer::Render(std::shared_ptr<Character> character)
 	if (!modelTrait)
 		return;
 
-	glm::mat4 model = transformTrait.GetModelMatrix();
+	glm::mat4 model = transformTrait->CalculateWorldMatrix(character->m_Parent.lock()->m_TransformTrait->GetWorldMatrix());
 	glm::mat4 view = m_WorldCamera->GetViewMatrix();
 	glm::mat4 projection = m_WorldCamera->GetProjMatrix(m_ImGuiFramebuffer->GetAspectRatio());
 

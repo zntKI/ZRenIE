@@ -12,7 +12,7 @@ bool UIContext::s_isInstantiated = false;
 
 UIContext::UIContext()
 	: m_GLFWWindow(nullptr),
-	m_StagePanel(nullptr)
+	m_StagePanel(nullptr), m_HierarchyPanel(nullptr)
 {
 	assert(!s_isInstantiated);
 	s_isInstantiated = true;
@@ -23,6 +23,7 @@ void UIContext::InitUIContext(std::shared_ptr<Window> GLFWWindow)
 	m_GLFWWindow = GLFWWindow;
 
 	m_StagePanel = std::make_unique<StagePanel>(m_GLFWWindow);
+	m_HierarchyPanel = std::make_unique<HierarchyPanel>();
 
 	initImGui();
 }
@@ -76,14 +77,11 @@ void UIContext::PreRenderUI()
 	ImGui::End();
 }
 
-void UIContext::RenderStagePanel()
+void UIContext::RenderUI()
 {
 	m_StagePanel->Render();
-}
-
-void UIContext::RenderHierarchyPanel()
-{
-	m_HierarchyPanel.Render();
+	std::weak_ptr<Character> charForTraits = m_HierarchyPanel->Render();
+	m_TraitsPanel->Render(charForTraits);
 }
 
 void UIContext::PostRenderUI()
@@ -106,4 +104,9 @@ void UIContext::AddObserverToStagePanel(std::shared_ptr<Observer> observer)
 		m_StagePanel->AssignFramebuffer(framebuffer);
 	}
 	m_StagePanel->AddObserver(observer);
+}
+
+void UIContext::AssignWorldToHierarchyPanel(std::shared_ptr<World> worldPtr)
+{
+	m_HierarchyPanel->AssignWorldPtr(worldPtr);
 }

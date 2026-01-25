@@ -6,10 +6,14 @@
 
 #include "InputManager.hpp"
 
+#include <nlohmann/json.hpp>
+
 #include <memory>
 
 struct StageConfig
 {
+	const nlohmann::json worldConfigData;
+
 	RendererConfig rendererConfig;
 };
 
@@ -20,8 +24,9 @@ class Stage
 private:
 	std::shared_ptr<FlyCamera> m_Camera;
 
-	World m_World;
 	std::shared_ptr<Renderer> m_Renderer;
+
+	std::shared_ptr<World> m_World;
 
 public:
 	Stage(const StageConfig& stageConfig);
@@ -32,7 +37,8 @@ public:
 
 	std::shared_ptr<FlyCamera> GetCameraPtr() const;
 	std::shared_ptr<Renderer> GetRendererPtr() const;
+	std::shared_ptr<World> GetWorldPtr() const;
 
 private:
-	void initialize();
+	void initialize(const nlohmann::json& worldConfigData);
 };

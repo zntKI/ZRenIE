@@ -6,6 +6,8 @@
 
 #include "Platform.hpp"
 
+#include "nlohmann/json.hpp"
+
 #include <memory>
 
 class Window :public Observer
@@ -19,7 +21,7 @@ public:
 
 	GLFWwindow* GetWindowPtr() const;
 
-	bool Initialize(const WindowConfig& windowConfig);/*Should be Window data loaded from JSON file*/
+	bool Initialize(const nlohmann::json& windowConfigData);
 	void Destroy();
 
 	bool ShouldClose() const;
@@ -34,15 +36,12 @@ private:
 	 * This helper function initializes the GLFW library.
 	 *
 	 * @param windowConfig Configuration struct for the window.
-	 * @return True if initialization was successful, false otherwise.
 	 */
-	bool glfwInitialize(const WindowConfig& windowConfig);
+	bool glfwInitialize(const nlohmann::json& windowConfigData);
 	/**
 	 * @brief Initializes GLAD.
 	 *
 	 * This helper function initializes the GLAD library.
-	 *
-	 * @return True if initialization was successful, false otherwise.
 	 */
 	bool gladInitialize();
 
