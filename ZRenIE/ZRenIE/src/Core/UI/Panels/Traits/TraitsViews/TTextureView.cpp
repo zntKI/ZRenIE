@@ -26,7 +26,7 @@ bool TTextureView::Render(unsigned int currentTextureId, std::string& currentTex
 		m_FileDialog.ClearSelected();
 
 		return true;
-	}
+	} 
 
 	return false;
 }
