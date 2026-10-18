@@ -8,6 +8,11 @@ The project provides a foundation for experimenting with rendering techniques wh
 
 > 🚧 **Status:** Active work in progress
 
+<p align="center">
+  <img src="Media/demo.gif"><br/>
+  *<i>Low frame rate caused by gif limitations</i>*
+</p>
+
 ---
 
 ## Highlights
